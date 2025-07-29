@@ -2,7 +2,7 @@
 import streamlit as st
 
 class StatsManager:
-    def __init__(self):
+    def __init__(self, user_manager=None):
         self.exam_domains = {
             "CRUD Operations": ["CRUD", "Insert", "Update", "Delete", "Find"],
             "Aggregation": ["Aggregation", "Pipeline", "Match", "Group", "Project"],
@@ -10,6 +10,7 @@ class StatsManager:
             "Data Modeling": ["Schema", "Data Model", "Document Design", "References"],
             "Tools & Deployment": ["Tools", "Deployment", "Compass", "Atlas", "Mongosh"]
         }
+        self.user_manager = user_manager
         self.initialize_session_state()
     
     def initialize_session_state(self):
@@ -29,9 +30,16 @@ class StatsManager:
     
     def update_stats(self, domain, is_correct):
         """Update user statistics for a specific domain"""
+        # Update session state for immediate UI update
         st.session_state["user_stats"][domain]["total"] += 1
         if is_correct:
             st.session_state["user_stats"][domain]["correct"] += 1
+        
+        # Update database if user is logged in
+        if self.user_manager and self.user_manager.is_logged_in():
+            current_user = self.user_manager.get_current_user()
+            if current_user:
+                self.user_manager.update_user_stats(str(current_user["_id"]), domain, is_correct)
     
     def calculate_accuracy(self, domain_stats):
         """Calculate accuracy percentage for given stats"""
@@ -58,6 +66,15 @@ class StatsManager:
                 "Correct": stats["correct"]
             })
         return domain_data
+    
+    def load_user_stats_from_db(self):
+        """Load user statistics from database"""
+        if self.user_manager and self.user_manager.is_logged_in():
+            current_user = self.user_manager.get_current_user()
+            if current_user:
+                db_stats = self.user_manager.get_user_stats(str(current_user["_id"]))
+                if db_stats:
+                    st.session_state["user_stats"] = db_stats
     
     def get_recommendations(self, domain_data):
         """Generate study recommendations based on performance"""

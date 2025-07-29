@@ -4,13 +4,15 @@ from stats import StatsManager
 from exam_mode import ExamModeManager
 from question_display import QuestionDisplay
 from dashboard import Dashboard
+from user_manager import UserManager
 
 # === PAGE CONFIG ===
 st.set_page_config(page_title="MongoDB Associate Exam Prep", layout="wide")
 
 # === INITIALIZE COMPONENTS ===
 db = QuizDatabase()
-stats_manager = StatsManager()
+user_manager = UserManager()
+stats_manager = StatsManager(user_manager)
 exam_manager = ExamModeManager()
 question_display = QuestionDisplay(stats_manager)
 dashboard = Dashboard(stats_manager)
@@ -23,6 +25,51 @@ if "submitted" not in st.session_state:
 
 # === SIDEBAR NAVIGATION ===
 st.sidebar.title("📚 MongoDB Associate Exam Prep")
+
+# === USER AUTHENTICATION ===
+if not user_manager.is_logged_in():
+    st.sidebar.subheader("👤 User Login")
+    
+    login_tab, signup_tab = st.sidebar.tabs(["Login", "Sign Up"])
+    
+    with login_tab:
+        username = st.text_input("Username", key="login_username")
+        if st.button("Login", key="login_btn"):
+            success, message = user_manager.login_user(username)
+            if success:
+                stats_manager.load_user_stats_from_db()
+                st.success(message)
+                st.rerun()
+            else:
+                st.error(message)
+    
+    with signup_tab:
+        new_username = st.text_input("Username", key="signup_username")
+        new_email = st.text_input("Email", key="signup_email")
+        if st.button("Sign Up", key="signup_btn"):
+            if new_username and new_email:
+                success, message = user_manager.create_user(new_username, new_email)
+                if success:
+                    st.success(message)
+                    st.info("Please login with your new account")
+                else:
+                    st.error(message)
+            else:
+                st.error("Please fill in all fields")
+
+else:
+    current_user = user_manager.get_current_user()
+    st.sidebar.success(f"Welcome, {current_user['username']}!")
+    if st.sidebar.button("Logout"):
+        user_manager.logout_user()
+        st.rerun()
+
+# Show main app only if user is logged in
+if not user_manager.is_logged_in():
+    st.title("🔐 Please Login to Continue")
+    st.info("Please login or create an account to access the MongoDB Associate Exam Prep app.")
+    st.stop()
+
 page = st.sidebar.selectbox("Choose Mode:", ["🎯 Practice Mode", "⏱️ Exam Simulation", "📊 Progress Dashboard"])
 
 # === PRACTICE MODE ===

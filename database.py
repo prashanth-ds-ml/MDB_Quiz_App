@@ -26,14 +26,25 @@ class QuizDatabase:
                 ]
             }
             
+            # Debug: Print the query and check what topics exist
+            print(f"Filtering with keywords: {domain_keywords}")
+            print(f"Query: {query}")
+            
+            # Check what topics actually exist in the database
+            all_topics = list(self.collection.distinct("topic"))
+            all_subtopics = list(self.collection.distinct("subtopic"))
+            print(f"Available topics: {all_topics}")
+            print(f"Available subtopics: {all_subtopics}")
+            
             # First try to get a filtered question
             questions = list(self.collection.aggregate([{"$match": query}, {"$sample": {"size": 1}}]))
             
             if questions:
+                print(f"Found filtered question: {questions[0]['topic']}")
                 return questions[0]
             else:
-                # If no questions found for this domain, return a random question
-                # and show a warning that no questions exist for this domain
+                # If no questions found for this domain, return None
+                print(f"No questions found for keywords: {domain_keywords}")
                 return None
         return self.get_random_question()
     
