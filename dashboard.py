@@ -4,8 +4,9 @@ import plotly.express as px
 import pandas as pd
 
 class Dashboard:
-    def __init__(self, stats_manager):
+    def __init__(self, stats_manager, user_manager=None):
         self.stats_manager = stats_manager
+        self.user_manager = user_manager
     
     def display_overview_metrics(self):
         """Display overall performance metrics"""
@@ -60,3 +61,41 @@ class Dashboard:
                 st.success(f"**Great job on:** {', '.join(strong_areas)}")
             if untested_areas:
                 st.info(f"**Haven't practiced yet:** {', '.join(untested_areas)}")
+    
+    def display_exam_history(self):
+        """Display user's exam history"""
+        if not self.user_manager or not self.user_manager.is_logged_in():
+            return
+        
+        current_user = self.user_manager.get_current_user()
+        if not current_user:
+            return
+        
+        exam_history = self.user_manager.get_user_exam_history(str(current_user["_id"]))
+        
+        if exam_history:
+            st.subheader("📋 Exam History")
+            
+            # Create dataframe for display
+            exam_data = []
+            for exam in exam_history:
+                exam_data.append({
+                    "Exam #": exam["exam_number"],
+                    "Score": f"{exam['score']}/{exam['total_questions']}",
+                    "Accuracy": f"{exam['accuracy']}%",
+                    "Time Taken": f"{exam['time_taken']} min",
+                    "Time Limit": f"{exam['time_limit']} min",
+                    "Date": exam["completed_at"].strftime("%Y-%m-%d %H:%M")
+                })
+            
+            df = pd.DataFrame(exam_data)
+            st.dataframe(df, use_container_width=True)
+            
+            # Exam performance chart
+            if len(exam_data) > 1:
+                fig = px.line(df, x="Exam #", y=[col for col in df.columns if col.endswith('%')], 
+                            title="Exam Performance Over Time")
+                fig.update_layout(yaxis_title="Accuracy (%)")
+                st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.info("No exam history found. Take some practice exams to see your progress!")

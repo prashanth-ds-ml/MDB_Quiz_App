@@ -13,9 +13,9 @@ st.set_page_config(page_title="MongoDB Associate Exam Prep", layout="wide")
 db = QuizDatabase()
 user_manager = UserManager()
 stats_manager = StatsManager(user_manager)
-exam_manager = ExamModeManager()
+exam_manager = ExamModeManager(user_manager)
 question_display = QuestionDisplay(stats_manager)
-dashboard = Dashboard(stats_manager)
+dashboard = Dashboard(stats_manager, user_manager)
 
 # === SESSION STATE SETUP ===
 if "question_doc" not in st.session_state:
@@ -132,12 +132,46 @@ elif page == "⏱️ Exam Simulation":
 
     if not st.session_state["exam_mode"]:
         st.markdown("### Ready for your MongoDB Associate practice exam?")
-        st.info("This simulation includes 10 questions with a 20-minute time limit.")
+        
+        # Exam Settings
+        st.subheader("⚙️ Exam Settings")
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            num_questions = st.selectbox(
+                "Number of Questions:",
+                [5, 10, 15, 20, 25, 30],
+                index=1,
+                help="Choose how many questions for this exam"
+            )
+        
+        with col2:
+            time_limit = st.selectbox(
+                "Time Limit (minutes):",
+                [10, 15, 20, 30, 45, 60],
+                index=2,
+                help="Choose time limit for this exam"
+            )
+        
+        st.info(f"📝 This simulation will include {num_questions} questions with a {time_limit}-minute time limit.")
+        
+        # Get next exam number for display
+        current_user = user_manager.get_current_user()
+        if current_user:
+            next_exam_num = user_manager.get_next_exam_number(str(current_user["_id"]))
+            st.success(f"🎯 This will be **Exam #{next_exam_num}**")
 
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("🚀 Start Exam", type="primary"):
-                exam_manager.start_exam()
+            if st.button("🚀 Start Custom Exam", type="primary"):
+                exam_manager.start_exam(num_questions, time_limit)
+                st.session_state["question_doc"] = db.get_random_question()
+                st.session_state["submitted"] = False
+                st.rerun()
+        
+        with col2:
+            if st.button("📚 Quick Practice (10q, 20min)", type="secondary"):
+                exam_manager.start_exam(10, 20)
                 st.session_state["question_doc"] = db.get_random_question()
                 st.session_state["submitted"] = False
                 st.rerun()
@@ -149,18 +183,29 @@ elif page == "⏱️ Exam Simulation":
             exam_manager.end_exam()
             st.stop()
 
-        # Display timer and progress
-        col1, col2, col3 = st.columns(3)
+        # Display exam info and progress
+        exam_summary = exam_manager.get_exam_summary()
+        
+        col1, col2, col3, col4 = st.columns(4)
         with col1:
+            st.metric("📋 Exam #", exam_summary["exam_number"])
+        
+        with col2:
             st.metric("⏰ Time Remaining", exam_manager.get_time_display())
 
-        with col2:
-            st.metric("📝 Question", f"{st.session_state['exam_questions_answered'] + 1}/10")
-
         with col3:
+            st.metric("📝 Question", f"{exam_summary['questions_answered'] + 1}/{exam_summary['total_questions']}")
+
+        with col4:
+            st.metric("✅ Correct", f"{exam_summary['correct_answers']}")
+
+        # End exam button
+        col1, col2 = st.columns([3, 1])
+        with col2:
             if st.button("🛑 End Exam"):
+                exam_manager.save_exam_result()
                 exam_manager.end_exam()
-                st.success("Exam ended successfully!")
+                st.success("Exam ended and results saved!")
                 st.rerun()
 
         # Question display
@@ -173,11 +218,14 @@ elif page == "⏱️ Exam Simulation":
             if st.button("➡️ Next Question") and not st.session_state["submitted"]:
                 result = question_display.process_answer(selected, question_doc, current_domain, show_explanation=False)
                 if result is not None:
+                    # Record the answer for exam tracking
+                    exam_manager.record_answer(result)
                     exam_manager.next_question()
 
                     if exam_manager.is_exam_complete():
+                        exam_manager.save_exam_result()
                         exam_manager.end_exam()
-                        st.success("🎉 Exam completed!")
+                        st.success("🎉 Exam completed! Results have been saved.")
                         st.rerun()
                     else:
                         st.session_state["question_doc"] = db.get_random_question()
@@ -195,6 +243,13 @@ elif page == "📊 Progress Dashboard":
 
     # Display domain performance
     domain_df = dashboard.display_domain_performance()
+
+    st.markdown("---")
+
+    # Display exam history
+    dashboard.display_exam_history()
+
+    st.markdown("---")
 
     # Display recommendations
     dashboard.display_recommendations(domain_df)

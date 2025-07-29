@@ -116,6 +116,39 @@ class UserManager:
              "$set": {"updated_at": datetime.utcnow()}}
         )
     
+    def save_exam_result(self, user_id, exam_data):
+        """Save exam result to database"""
+        exam_result = {
+            "user_id": user_id,
+            "exam_number": exam_data["exam_number"],
+            "score": exam_data["score"],
+            "total_questions": exam_data["total_questions"],
+            "time_limit": exam_data["time_limit"],
+            "time_taken": exam_data["time_taken"],
+            "accuracy": exam_data["accuracy"],
+            "completed_at": datetime.utcnow()
+        }
+        
+        exam_results_collection = self.db["exam_results"]
+        exam_results_collection.insert_one(exam_result)
+    
+    def get_user_exam_history(self, user_id):
+        """Get user's exam history"""
+        exam_results_collection = self.db["exam_results"]
+        return list(exam_results_collection.find(
+            {"user_id": user_id},
+            sort=[("completed_at", -1)]
+        ))
+    
+    def get_next_exam_number(self, user_id):
+        """Get the next exam number for user"""
+        exam_results_collection = self.db["exam_results"]
+        last_exam = exam_results_collection.find_one(
+            {"user_id": user_id},
+            sort=[("exam_number", -1)]
+        )
+        return (last_exam["exam_number"] + 1) if last_exam else 1
+
     def get_all_users(self):
         """Get all users (for admin purposes)"""
         return list(self.users_collection.find({}, {"password": 0}))
