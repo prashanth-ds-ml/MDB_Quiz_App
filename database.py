@@ -17,9 +17,24 @@ class QuizDatabase:
     def get_filtered_question(self, domain_keywords):
         """Get a random question filtered by domain keywords"""
         if domain_keywords:
-            query = {"$or": [{"topic": {"$regex": keyword, "$options": "i"}} for keyword in domain_keywords]}
+            # Create a more comprehensive query that checks both topic and subtopic fields
+            query = {
+                "$or": [
+                    {"topic": {"$regex": keyword, "$options": "i"}} for keyword in domain_keywords
+                ] + [
+                    {"subtopic": {"$regex": keyword, "$options": "i"}} for keyword in domain_keywords
+                ]
+            }
+            
+            # First try to get a filtered question
             questions = list(self.collection.aggregate([{"$match": query}, {"$sample": {"size": 1}}]))
-            return questions[0] if questions else self.get_random_question()
+            
+            if questions:
+                return questions[0]
+            else:
+                # If no questions found for this domain, return a random question
+                # and show a warning that no questions exist for this domain
+                return None
         return self.get_random_question()
     
     def get_question_count(self):

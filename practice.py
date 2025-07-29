@@ -40,7 +40,13 @@ if page == "🎯 Practice Mode":
     with col2:
         if st.button("🔄 New Question"):
             domain_keywords = stats_manager.exam_domains.get(selected_domain) if selected_domain != "All Topics" else None
-            st.session_state["question_doc"] = db.get_filtered_question(domain_keywords)
+            new_question = db.get_filtered_question(domain_keywords)
+            
+            if new_question is None and selected_domain != "All Topics":
+                st.warning(f"No questions found for {selected_domain}. Getting a random question instead.")
+                new_question = db.get_random_question()
+            
+            st.session_state["question_doc"] = new_question
             st.session_state["submitted"] = False
             st.rerun()
 
@@ -48,6 +54,11 @@ if page == "🎯 Practice Mode":
     if st.session_state["question_doc"] is None:
         domain_keywords = stats_manager.exam_domains.get(selected_domain) if selected_domain != "All Topics" else None
         st.session_state["question_doc"] = db.get_filtered_question(domain_keywords)
+        
+        # If no questions found for the selected domain, show warning and get random question
+        if st.session_state["question_doc"] is None and selected_domain != "All Topics":
+            st.warning(f"No questions found for {selected_domain}. Showing a random question instead.")
+            st.session_state["question_doc"] = db.get_random_question()
 
     question_doc = st.session_state["question_doc"]
 
