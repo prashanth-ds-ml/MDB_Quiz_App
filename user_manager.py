@@ -81,7 +81,8 @@ class UserManager:
             "Aggregation": {"correct": 0, "total": 0},
             "Indexing": {"correct": 0, "total": 0},
             "Data Modeling": {"correct": 0, "total": 0},
-            "Tools & Deployment": {"correct": 0, "total": 0}
+            "Tools & Deployment": {"correct": 0, "total": 0},
+            "Other": {"correct": 0, "total": 0}
         }
         
         stats_doc = {

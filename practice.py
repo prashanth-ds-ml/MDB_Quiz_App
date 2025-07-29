@@ -83,6 +83,14 @@ if page == "🎯 Practice Mode":
             "Choose Exam Domain:",
             ["All Topics"] + list(stats_manager.exam_domains.keys())
         )
+        
+        # Reset question if domain changed
+        if "previous_domain" not in st.session_state:
+            st.session_state["previous_domain"] = selected_domain
+        elif st.session_state["previous_domain"] != selected_domain:
+            st.session_state["previous_domain"] = selected_domain
+            st.session_state["question_doc"] = None
+            st.session_state["submitted"] = False
 
     with col2:
         if st.button("🔄 New Question"):

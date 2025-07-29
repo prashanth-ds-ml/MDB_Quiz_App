@@ -16,9 +16,10 @@ class StatsManager:
     def initialize_session_state(self):
         """Initialize user statistics in session state"""
         if "user_stats" not in st.session_state:
+            all_domains = list(self.exam_domains.keys()) + ["Other"]
             st.session_state["user_stats"] = {
                 domain: {"correct": 0, "total": 0} 
-                for domain in self.exam_domains.keys()
+                for domain in all_domains
             }
     
     def get_question_domain(self, topic):
@@ -30,6 +31,10 @@ class StatsManager:
     
     def update_stats(self, domain, is_correct):
         """Update user statistics for a specific domain"""
+        # Ensure the domain exists in user_stats
+        if domain not in st.session_state["user_stats"]:
+            st.session_state["user_stats"][domain] = {"correct": 0, "total": 0}
+        
         # Update session state for immediate UI update
         st.session_state["user_stats"][domain]["total"] += 1
         if is_correct:
