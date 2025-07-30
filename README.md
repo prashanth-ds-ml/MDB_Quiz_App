@@ -2,6 +2,8 @@
 
 ## Question-Bank Document Shape
 
+This is a Practice app where people who are preparing for the MongoDB Associate Python developer Exam can come and practice for the exam 
+
 The quiz app stores each question (QA pair) as a single document in the **`questions`** collection:
 
 ```jsonc
