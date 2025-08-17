@@ -34,3 +34,6 @@ The quiz app stores each question (QA pair) as a single document in the **`quest
   "created_at": ISODate(),
   "updated_at": ISODate()
 }
+```
+
+1. make updates to the code for exam preparation
