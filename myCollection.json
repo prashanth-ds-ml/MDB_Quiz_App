@@ -1,0 +1,1361 @@
+[
+    {
+        "topic": "Document Model",
+        "subtopic": "Basics",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "Which of the following is TRUE about MongoDB documents?",
+        "options": [
+            {
+                "key": "A",
+                "text": "All documents in a collection must have the exact same fields"
+            },
+            {
+                "key": "B",
+                "text": "Fields in documents are always stored in alphabetical order"
+            },
+            {
+                "key": "C",
+                "text": "MongoDB supports embedded documents and arrays"
+            },
+            {
+                "key": "D",
+                "text": "BSON documents must always be flat (no nesting)"
+            }
+        ],
+        "answers": [
+            "C"
+        ],
+        "explanation": "\u2705 **Correct Answer: C**\n\nMongoDB supports **embedded documents** (objects within objects) and **arrays**, making its document model highly flexible.\n\nThis is one of MongoDB\u2019s biggest strengths compared to relational databases. Instead of splitting data across multiple tables and joining them, MongoDB allows you to represent **complex relationships and hierarchical data** directly inside a document.\n\n---\n\n\ud83d\udcd8 **Example:**\n```json\n{\n  \"name\": \"Ravi\",\n  \"contact\": {\n    \"email\": \"ravi@example.com\",\n    \"phone\": \"1234567890\"\n  },\n  \"skills\": [\"MongoDB\", \"Python\"]\n}\n```\n- `contact` is an **embedded document**\n- `skills` is an **array of strings**\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **A:** MongoDB collections are **schema-less**, meaning documents can have different structures.\n- **B:** BSON stores fields in the order they were inserted, **not alphabetically**.\n- **D:** BSON **does allow nesting** \u2014 in fact, it's a key feature.\n\n---\n\n\u2705 **Takeaway:**\nMongoDB\u2019s ability to store arrays and embedded documents enables more natural and efficient data modeling for real-world applications.",
+        "author": "prashanth",
+        "created_at": "2025-05-05T16:37:46.383000",
+        "updated_at": "2025-05-05T16:37:46.383000"
+    },
+    {
+        "topic": "Indexing",
+        "subtopic": "Basics",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "What is the primary purpose of an index in MongoDB?",
+        "options": [
+            {
+                "key": "A",
+                "text": "To increase the size of the collection"
+            },
+            {
+                "key": "B",
+                "text": "To ensure that all queries are always faster"
+            },
+            {
+                "key": "C",
+                "text": "To improve the efficiency of read operations"
+            },
+            {
+                "key": "D",
+                "text": "To enable the use of embedded documents"
+            }
+        ],
+        "answers": [
+            "C"
+        ],
+        "explanation": "\u2705 **Correct Answer: C**\n\nIndexes in MongoDB are designed to speed up **read operations** by allowing the database to quickly locate the documents that match a query. Without an index, MongoDB has to scan the entire collection, which is inefficient for large datasets.\n\n---\n\n\ud83d\udcd8 **Example:**\nA query like `db.users.find({ email: \"ravi@example.com\" })` will be fast **only if** an index exists on `email`. Otherwise, MongoDB will perform a full scan.\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **A:** Indexes do use extra storage but their goal is speed, not size.\n- **B:** Not all queries are faster \u2014 the wrong index can be ignored.\n- **D:** Indexes are unrelated to embedded documents, which are part of schema design.\n\n---\n\n\u2705 **Takeaway:**\nIndexes make **query execution efficient**, especially in large collections with frequent lookups.",
+        "author": "prashanth",
+        "created_at": "2025-05-05T16:43:45.372000",
+        "updated_at": "2025-05-05T16:43:45.372000"
+    },
+    {
+        "topic": "CRUD",
+        "subtopic": "Insert Operations",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "Which of the following is the correct syntax to insert a single document into a collection using the MongoDB shell?",
+        "options": [
+            {
+                "key": "A",
+                "text": "db.insertOne({name: \"Ravi\", age: 25})"
+            },
+            {
+                "key": "B",
+                "text": "db.users.insertOne({name: \"Ravi\", age: 25})"
+            },
+            {
+                "key": "C",
+                "text": "db.users.insert({name: \"Ravi\", age: 25})"
+            },
+            {
+                "key": "D",
+                "text": "db.users.addOne({name: \"Ravi\", age: 25})"
+            }
+        ],
+        "answers": [
+            "B"
+        ],
+        "explanation": "\u2705 **Correct Answer: B**\n\nThe method `insertOne()` is the modern and recommended way to insert a **single document** into a MongoDB collection.\n\n---\n\n\ud83d\udcd8 **Example:**\n```js\ndb.users.insertOne({ name: \"Ravi\", age: 25 })\n```\nThis inserts one document into the `users` collection.\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **A:** Missing collection name \u2192 invalid syntax.\n- **C:** `insert()` is deprecated for single inserts since MongoDB 3.2.\n- **D:** `addOne()` is not a valid MongoDB method.\n\n---\n\n\u2705 **Takeaway:**\nAlways use `insertOne()` or `insertMany()` for clarity, future-proofing, and compatibility with the MongoDB driver ecosystem.",
+        "author": "prashanth",
+        "created_at": "2025-05-05T16:47:36.292000",
+        "updated_at": "2025-05-05T16:47:36.292000"
+    },
+    {
+        "topic": "Query Operators",
+        "subtopic": "$in Operator",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "What does the `$in` operator do in a MongoDB query?",
+        "options": [
+            {
+                "key": "A",
+                "text": "It returns documents with all listed values present"
+            },
+            {
+                "key": "B",
+                "text": "It checks if a value is inside a specific array"
+            },
+            {
+                "key": "C",
+                "text": "It matches any document that contains at least one value from a list"
+            },
+            {
+                "key": "D",
+                "text": "It filters documents where values are in alphabetical order"
+            }
+        ],
+        "answers": [
+            "C"
+        ],
+        "explanation": "\u2705 **Correct Answer: C**\n\nThe `$in` operator in MongoDB is used to match any document where the specified field's value is **equal to any value in the provided array**.\n\n---\n\n\ud83d\udcd8 **Example:**\n```js\n// Finds all items in either 'tech' or 'books' category\ndb.items.find({ category: { $in: [\"tech\", \"books\"] } })\n```\nThis matches documents where the `category` field is either `\"tech\"` or `\"books\"`.\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **A:** `$in` does not require all values to match \u2014 just one.\n- **B:** It\u2019s not specifically for arrays. It checks a field's value against a list.\n- **D:** `$in` has nothing to do with order or sorting.\n\n---\n\n\u2705 **Takeaway:**\nUse `$in` to efficiently match a field against multiple possible values.",
+        "author": "prashanth",
+        "created_at": "2025-05-06T15:09:27.178000",
+        "updated_at": "2025-05-06T15:09:27.178000"
+    },
+    {
+        "topic": "CRUD",
+        "subtopic": "Projection",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "What is the purpose of projections in MongoDB queries?",
+        "options": [
+            {
+                "key": "A",
+                "text": "To filter documents by condition"
+            },
+            {
+                "key": "B",
+                "text": "To return only specific fields from documents"
+            },
+            {
+                "key": "C",
+                "text": "To update selected fields"
+            },
+            {
+                "key": "D",
+                "text": "To sort documents during query execution"
+            }
+        ],
+        "answers": [
+            "B"
+        ],
+        "explanation": "\u2705 **Correct Answer: B**\n\nA projection in MongoDB controls **which fields** of each document are returned by a query.\n\n---\n\n\ud83d\udcd8 **Example:**\n```js\ndb.users.find({}, { name: 1, email: 1, _id: 0 })\n```\nThis query returns only the `name` and `email` fields, and excludes `_id`.\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **A:** Filtering documents is done via query filters, not projections.\n- **C:** Field updates are handled by update operations like `$set`.\n- **D:** Sorting uses `.sort()` \u2014 unrelated to projections.\n\n---\n\n\u2705 **Takeaway:**\nUse projections to retrieve **only the data you need**, minimizing bandwidth and improving performance.",
+        "author": "prashanth",
+        "created_at": "2025-05-06T15:12:56.718000",
+        "updated_at": "2025-05-06T15:12:56.718000"
+    },
+    {
+        "topic": "Aggregation",
+        "subtopic": "$match Stage",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "What is the role of the `$match` stage in an aggregation pipeline?",
+        "options": [
+            {
+                "key": "A",
+                "text": "It limits the number of documents returned"
+            },
+            {
+                "key": "B",
+                "text": "It filters documents based on conditions"
+            },
+            {
+                "key": "C",
+                "text": "It groups documents by a field"
+            },
+            {
+                "key": "D",
+                "text": "It projects specific fields from documents"
+            }
+        ],
+        "answers": [
+            "B"
+        ],
+        "explanation": "\u2705 **Correct Answer: B**\n\nThe `$match` stage in MongoDB\u2019s aggregation pipeline filters documents based on conditions, similar to how the `find()` method works.\n\n---\n\n\ud83d\udcd8 **Example:**\n```js\ndb.sales.aggregate([\n  { $match: { region: \"south\" } },\n  { $group: { _id: \"$product\", total: { $sum: \"$amount\" } } }\n])\n```\n- `$match` filters only documents from the `south` region before passing to `$group`.\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **A:** Limiting is done with `$limit`, not `$match`\n- **C:** `$group` groups documents, not `$match`\n- **D:** `$project` is for selecting fields, not filtering\n\n---\n\n\u2705 **Takeaway:**\nAlways use `$match` early to filter documents and improve pipeline performance.",
+        "author": "prashanth",
+        "created_at": "2025-05-06T15:14:57.717000",
+        "updated_at": "2025-05-06T15:14:57.717000"
+    },
+    {
+        "topic": "Indexing",
+        "subtopic": "Single Field Index",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "Which of the following improves performance for queries using the `email` field?",
+        "options": [
+            {
+                "key": "A",
+                "text": "Creating an index on { name: 1 }"
+            },
+            {
+                "key": "B",
+                "text": "Creating an index on { email: 1 }"
+            },
+            {
+                "key": "C",
+                "text": "Creating an index on { _id: 1, email: 1 }"
+            },
+            {
+                "key": "D",
+                "text": "Creating an index on { created_at: -1 }"
+            }
+        ],
+        "answers": [
+            "B"
+        ],
+        "explanation": "\u2705 **Correct Answer: B**\n\nCreating an index on `{ email: 1 }` helps MongoDB locate documents faster when querying by the `email` field.\n\n---\n\n\ud83d\udcd8 **Example:**\n```js\ndb.users.find({ email: \"ravi@example.com\" })\n```\nThis query will be significantly faster if an index on `email` exists.\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **A:** Index on `name` doesn\u2019t help when querying `email`.\n- **C:** Compound indexes work only if the query uses the leading field \u2014 here it's `_id`, not `email`.\n- **D:** `created_at` has no relation to `email`-based queries.\n\n---\n\n\u2705 **Takeaway:**\nAlways index fields that are frequently used in **search filters**, **sorts**, or **joins**.",
+        "author": "prashanth",
+        "created_at": "2025-05-07T12:35:45.327000",
+        "updated_at": "2025-05-07T12:35:45.327000"
+    },
+    {
+        "topic": "Aggregation",
+        "subtopic": "$group Operator",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "Which aggregation operator is used to group documents and perform calculations like sum or average?",
+        "options": [
+            {
+                "key": "A",
+                "text": "$group"
+            },
+            {
+                "key": "B",
+                "text": "$match"
+            },
+            {
+                "key": "C",
+                "text": "$project"
+            },
+            {
+                "key": "D",
+                "text": "$sort"
+            }
+        ],
+        "answers": [
+            "A"
+        ],
+        "explanation": "\u2705 **Correct Answer: A**\n\nThe `$group` stage in MongoDB's aggregation pipeline allows you to group documents by a specified key and apply aggregation expressions like `$sum`, `$avg`, `$max`, etc.\n\n---\n\n\ud83d\udcd8 **Example:**\n```js\ndb.orders.aggregate([\n  { $group: { _id: \"$customerId\", totalSpent: { $sum: \"$amount\" } } }\n])\n```\nThis groups orders by `customerId` and computes total amount spent.\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **B: `$match`** filters documents (does not calculate anything).\n- **C: `$project`** reshapes document fields (does not perform math).\n- **D: `$sort`** orders documents by field values (not grouping).\n\n---\n\n\u2705 **Takeaway:**\nUse `$group` whenever you need to **aggregate and summarize data** in MongoDB.",
+        "author": "prashanth",
+        "created_at": "2025-05-07T12:42:07.228000",
+        "updated_at": "2025-05-07T12:42:07.228000"
+    },
+    {
+        "topic": "Data Modeling",
+        "subtopic": "Anti-Patterns",
+        "difficulty": "Intermediate",
+        "type": "single",
+        "stem": "Which is considered a data modeling anti-pattern in MongoDB?",
+        "options": [
+            {
+                "key": "A",
+                "text": "Referencing user ID in a blog post"
+            },
+            {
+                "key": "B",
+                "text": "Embedding small comments inside an article document"
+            },
+            {
+                "key": "C",
+                "text": "Duplicating the same address in 1,000 user documents"
+            },
+            {
+                "key": "D",
+                "text": "Embedding a one-to-one relationship inside a parent document"
+            }
+        ],
+        "answers": [
+            "C"
+        ],
+        "explanation": "\u2705 **Correct Answer: C**\n\nDuplicating the same address in thousands of documents is a classic **anti-pattern** in MongoDB. It increases redundancy, storage cost, and maintenance complexity.\n\n---\n\n\ud83d\udcd8 **Preferred Approach:** Use referencing for shared data like addresses:\n```json\n{\n  \"_id\": \"user123\",\n  \"name\": \"Ravi\",\n  \"address_id\": \"addr456\"\n}\n```\n\n---\n\n\u274c **Why Others Are Valid:**\n- **A:** Referencing is efficient for relationships.\n- **B:** Embedding is great for small, bounded subdocuments like comments.\n- **D:** One-to-one embedding is a recommended design.\n\n---\n\n\u2705 **Takeaway:**\nAvoid duplicating common data \u2014 use **referencing** to reduce redundancy and improve maintainability.",
+        "author": "prashanth",
+        "created_at": "2025-05-07T12:43:08.815000",
+        "updated_at": "2025-05-07T12:43:08.815000"
+    },
+    {
+        "topic": "Query Operators",
+        "subtopic": "$in Operator",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "What does the `$in` operator do in a MongoDB query?",
+        "options": [
+            {
+                "key": "A",
+                "text": "Matches documents that do not contain any of the specified values"
+            },
+            {
+                "key": "B",
+                "text": "Checks for existence of fields"
+            },
+            {
+                "key": "C",
+                "text": "Matches documents where the field value is in a specified array"
+            },
+            {
+                "key": "D",
+                "text": "Matches nested fields using dot notation"
+            }
+        ],
+        "answers": [
+            "C"
+        ],
+        "explanation": "\u2705 **Correct Answer: C**\n\nThe `$in` operator matches documents where the specified field's value is present in a provided array of possible values.\n\n---\n\n\ud83d\udcd8 **Example:**\n```js\ndb.items.find({ category: { $in: [\"electronics\", \"furniture\"] } })\n```\nThis will return all items with category either `electronics` or `furniture`.\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **A:** That describes `$nin`, which means 'not in'.\n- **B:** That\u2019s `$exists`, used for checking if a field exists.\n- **D:** Dot notation is for nested fields, not related to `$in`.\n\n---\n\n\u2705 **Takeaway:**\nUse `$in` when you want to match **multiple possible values** for a field in a single query.",
+        "author": "prashanth",
+        "created_at": "2025-05-07T12:44:16.347000",
+        "updated_at": "2025-05-07T12:44:16.347000"
+    },
+    {
+        "topic": "CRUD Operations",
+        "subtopic": "Delete",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "Which command correctly deletes a document by its `_id` field in MongoDB?",
+        "options": [
+            {
+                "key": "A",
+                "text": "db.users.remove({_id: 123})"
+            },
+            {
+                "key": "B",
+                "text": "db.users.delete({_id: 123})"
+            },
+            {
+                "key": "C",
+                "text": "db.users.deleteOne({_id: 123})"
+            },
+            {
+                "key": "D",
+                "text": "db.users.erase({_id: 123})"
+            }
+        ],
+        "answers": [
+            "C"
+        ],
+        "explanation": "\u2705 **Correct Answer: C**\n\n`deleteOne()` is the recommended way to delete a single document in MongoDB, especially when targeting a document by `_id`.\n\n---\n\n\ud83d\udcd8 **Example:**\n```js\ndb.users.deleteOne({ _id: ObjectId(\"64ad7f1e1d8b3a0012c5a1bc\") })\n```\nDeletes one document by its unique identifier.\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **A:** `remove()` is deprecated.\n- **B:** `delete()` does not exist.\n- **D:** `erase()` is not a MongoDB command.\n\n---\n\n\u2705 **Takeaway:**\nUse `deleteOne()` or `deleteMany()` for deleting documents \u2014 they're part of MongoDB\u2019s modern API.",
+        "author": "prashanth",
+        "created_at": "2025-05-07T12:45:37.949000",
+        "updated_at": "2025-05-07T12:45:37.949000"
+    },
+    {
+        "topic": "CRUD Operations",
+        "subtopic": "findAndModify",
+        "difficulty": "Intermediate",
+        "type": "single",
+        "stem": "Using the `zips` collection, you run the following query. This query updates the `pop` field. What will be returned?\n```js\ndb.zips.findAndModify({\n  query: { _id: ObjectId(\"5c8eecclaa187d17ca722e7\") },\n  update: { $set: { pop: 40000 } },\n  new: true\n})\n```",
+        "options": [
+            {
+                "key": "A",
+                "text": "The updated document, which contains a population of 40000"
+            },
+            {
+                "key": "B",
+                "text": "The original document, prior to the update, which contains a population of 34054"
+            },
+            {
+                "key": "C",
+                "text": "All documents with a population of 40000"
+            },
+            {
+                "key": "D",
+                "text": "A new document that contains only an _id field and a population field"
+            }
+        ],
+        "answers": [
+            "A"
+        ],
+        "explanation": "\u2705 **Correct Answer: A**\n\nWhen `new: true` is specified, `findAndModify()` returns the **updated document**.\n\n---\n\n\ud83d\udcd8 **Example:**\n```js\ndb.zips.findAndModify({\n  query: { _id: ObjectId(\"5c8eecclaa187d17ca722e7\") },\n  update: { $set: { pop: 40000 } },\n  new: true\n})\n```\nReturns:\n```json\n{\n  _id: ObjectId(\"...\"),\n  pop: 40000,\n  ...\n}\n```\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **B:** Would be returned only if `new: false`.\n- **C:** `findAndModify()` returns only one document.\n- **D:** No `upsert: true` is set \u2014 so it doesn\u2019t insert a new document.\n\n---\n\n\u2705 **Takeaway:**\nAlways use `new: true` when you want the updated document returned by `findAndModify()`.",
+        "author": "prashanth",
+        "created_at": "2025-05-07T14:37:58.277000",
+        "updated_at": "2025-05-07T14:37:58.277000"
+    },
+    {
+        "topic": "CRUD Operations",
+        "subtopic": "findAndModify with Upsert",
+        "difficulty": "Intermediate",
+        "type": "single",
+        "stem": "What would happen if you run this `findAndModify()` query on the `zips` collection, where no document for the city of Taos currently exists?\n```js\ndb.zips.findAndModify({\n  query: { zip: 87571 },\n  update: { $set: { city: \"TAOS\", state: \"NM\", pop: 40000 } },\n  upsert: true,\n  new: true\n})\n```",
+        "options": [
+            {
+                "key": "A",
+                "text": "A new document would be inserted because the new option is set to true."
+            },
+            {
+                "key": "B",
+                "text": "A new document would be inserted because the upsert option is set to true."
+            },
+            {
+                "key": "C",
+                "text": "You would receive an error, because you cannot insert a new document when using the findAndModify() method."
+            }
+        ],
+        "answers": [
+            "B"
+        ],
+        "explanation": "\u2705 **Correct Answer: B**\n\nWhen `upsert: true` is set and no matching document exists, `findAndModify()` will **insert** a new document. The `new: true` option simply returns the inserted/updated document.\n\n---\n\n\ud83d\udcd8 **Example:**\n```js\ndb.zips.findAndModify({\n  query: { zip: 87571 },\n  update: { $set: { city: \"TAOS\", state: \"NM\", pop: 40000 } },\n  upsert: true,\n  new: true\n})\n```\nThis results in a **new document**:\n```json\n{\n  \"zip\": 87571,\n  \"city\": \"TAOS\",\n  \"state\": \"NM\",\n  \"pop\": 40000\n}\n```\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **A:** `new: true` only affects the returned document.\n- **C:** This will not error out because `upsert` is set.\n\n---\n\n\u2705 **Takeaway:**\nUse `upsert: true` to insert if not found. `new: true` just returns the updated/incoming doc.",
+        "author": "prashanth",
+        "created_at": "2025-05-07T14:44:52.065000",
+        "updated_at": "2025-05-07T14:44:52.065000"
+    },
+    {
+        "topic": "CRUD",
+        "subtopic": "updateMany",
+        "difficulty": "Intermediate",
+        "type": "single",
+        "stem": "You need to update the grades collection so that all students in class IDs 377, 259, and 360 receive an additional score of 100 points for 'extra credit'. Each document has a scores array. Which of the following queries will correctly achieve this?",
+        "options": [
+            {
+                "key": "A",
+                "text": "db.grades.insertMany({ class_id: { $in: [ 377, 259, 360 ] }, $push: { scores: { type: 'extra credit', score: 100 } } })"
+            },
+            {
+                "key": "B",
+                "text": "db.grades.updateMany({ class_id: { $in: [ 377, 259, 360 ] } }, { $push: { scores: { type: 'extra credit', score: 100 } } })"
+            },
+            {
+                "key": "C",
+                "text": "db.grades.updateOne({ class_id: { $in: [ 377, 259, 360 ] } }, { $push: { scores: { type: 'extra credit', score: 100 } } })"
+            },
+            {
+                "key": "D",
+                "text": "db.grades.findAndModify({ query: { class_id: { $in: [ 377, 259, 360 ] } }, update: { $push: { scores: { type: 'extra credit', score: 100 } } } })"
+            }
+        ],
+        "answers": [
+            "B"
+        ],
+        "explanation": "\u2705 **Correct Answer: B**\n\n`updateMany()` is the correct method to update **multiple documents** matching the filter criteria. In this case, you're updating all documents where the `class_id` is one of 377, 259, or 360.\n\n```js\ndb.grades.updateMany(\n  { class_id: { $in: [377, 259, 360] } },\n  { $push: { scores: { type: 'extra credit', score: 100 } } }\n)\n```\n\n---\n\n\u274c **Why the others are incorrect:**\n- **A:** `insertMany()` inserts new documents \u2014 it doesn\u2019t update existing ones.\n- **C:** `updateOne()` only updates **one** matching document \u2014 not suitable here.\n- **D:** `findAndModify()` updates **only one** document as well \u2014 and is used less often than `updateMany()` for bulk changes.\n\n---\n\n\ud83d\udcd8 **Takeaway:**\nUse `$in` with `updateMany()` when updating multiple documents that match values in an array.",
+        "author": "prashanth",
+        "created_at": "2025-05-07T17:16:31.268000",
+        "updated_at": "2025-05-07T17:16:31.268000"
+    },
+    {
+        "topic": "Querying",
+        "subtopic": "Logical Operators",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "What does the following MongoDB query return?\n\n```js\ndb.products.find({\n  $and: [\n    { stock: { $gt: 0 } },\n    { active: true }\n  ]\n})\n```",
+        "options": [
+            {
+                "key": "A",
+                "text": "Products that are out of stock"
+            },
+            {
+                "key": "B",
+                "text": "Products with active: true only"
+            },
+            {
+                "key": "C",
+                "text": "Products with stock = 0"
+            },
+            {
+                "key": "D",
+                "text": "Products that are in stock and active"
+            }
+        ],
+        "answers": [
+            "D"
+        ],
+        "explanation": "\u2705 **Correct Answer: D**\n\nThe query uses `$and` to combine two conditions:\n- `stock > 0` \u2192 product must be **in stock**\n- `active: true` \u2192 product must be **active**\n\n```js\ndb.products.find({\n  $and: [\n    { stock: { $gt: 0 } },\n    { active: true }\n  ]\n})\n```\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **A:** It matches products that **have stock**, not those that are out.\n- **B:** Only matches one condition, not both.\n- **C:** Would require `stock: 0`, not `$gt: 0`.\n\n---\n\n\ud83d\udcd8 **Takeaway:**\nUse `$and` when multiple filter conditions must all be true.",
+        "author": "prashanth",
+        "created_at": "2025-05-07T17:22:04.327000",
+        "updated_at": "2025-05-07T17:22:04.327000"
+    },
+    {
+        "topic": "CRUD Operations",
+        "subtopic": "deleteOne vs deleteMany",
+        "difficulty": "Intermediate",
+        "type": "single",
+        "stem": "United Airlines is the only airline that has a route from Denver Airport (DEN) to Northwest Arkansas Airport (XNA). It has decided to cancel this route. Which of the following queries will correctly delete the route?\n\nNote: The data is in the `routes` collection of the `sample_training` database.",
+        "options": [
+            {
+                "key": "A",
+                "text": "db.routes.deleteOne({ \"airline.name\": \"United Airlines\" })"
+            },
+            {
+                "key": "B",
+                "text": "db.routes.delete({ \"airline.name\": \"United Airlines\" })"
+            },
+            {
+                "key": "C",
+                "text": "db.routes.delete({ src_airport: \"DEN\", dst_airport: \"XNA\" })"
+            },
+            {
+                "key": "D",
+                "text": "db.routes.deleteOne({ src_airport: \"DEN\", dst_airport: \"XNA\" })"
+            }
+        ],
+        "answers": [
+            "D"
+        ],
+        "explanation": "\u2705 **Correct Answer: D**\n\n`deleteOne()` deletes exactly one matching document. The query:\n```js\ndb.routes.deleteOne({\n  src_airport: \"DEN\",\n  dst_airport: \"XNA\"\n})\n```\nMatches the route specifically from **Denver (DEN)** to **XNA** and deletes it.\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **A:** Deletes based on airline only \u2014 could delete more than intended.\n- **B:** Uses outdated `delete()` instead of `deleteOne()` or `deleteMany()`.\n- **C:** `delete()` may delete multiple routes matching the criteria.\n\n---\n\n\ud83d\udcd8 **Takeaway:**\nUse `deleteOne()` with a **specific filter** to safely remove a single document.",
+        "author": "prashanth",
+        "created_at": "2025-05-08T02:34:05.786000",
+        "updated_at": "2025-05-08T02:34:05.786000"
+    },
+    {
+        "topic": "CRUD Operations",
+        "subtopic": "deleteMany",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "Air Berlin has filed for bankruptcy and ceased operations. You need to delete all documents from the `routes` collection where the airline name is Air Berlin. Which of the following queries should you use?",
+        "options": [
+            {
+                "key": "A",
+                "text": "db.routes.deleteOne({ \"airline.name\": \"Air Berlin\" })"
+            },
+            {
+                "key": "B",
+                "text": "db.routes.delete(\"Air Berlin\")"
+            },
+            {
+                "key": "C",
+                "text": "db.routes.deleteMany({ \"airline.name\": \"Air Berlin\" })"
+            },
+            {
+                "key": "D",
+                "text": "db.routes.deleteMany(\"Air Berlin\")"
+            }
+        ],
+        "answers": [
+            "C"
+        ],
+        "explanation": "\u2705 **Correct Answer: C**\n\n`deleteMany()` is used to remove all documents matching a filter. In this case, all routes by Air Berlin should be deleted.\n\n```js\ndb.routes.deleteMany({ \"airline.name\": \"Air Berlin\" })\n```\n\n---\n\n\u274c **Why Others Are Incorrect:**\n- **A:** Deletes only **one** route \u2014 not all.\n- **B:** Invalid \u2014 `delete()` expects an **object**, not a string.\n- **D:** Same as B \u2014 `deleteMany()` also expects a filter **object**, not a plain string.\n\n---\n\n\ud83d\udcd8 **Takeaway:**\nUse `deleteMany()` with a proper filter object when removing multiple documents based on a field.",
+        "author": "prashanth",
+        "created_at": "2025-05-08T02:34:27.735000",
+        "updated_at": "2025-05-08T02:34:27.735000"
+    },
+    {
+        "topic": "Querying",
+        "subtopic": "Dot Notation",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "How can you match documents with a nested field like `address.city = \"New York\"` in MongoDB?",
+        "options": [
+            {
+                "key": "A",
+                "text": "{ address: { city: \"New York\" } }"
+            },
+            {
+                "key": "B",
+                "text": "{ \"address.city\": \"New York\" }"
+            },
+            {
+                "key": "C",
+                "text": "{ address > city = \"New York\" }"
+            },
+            {
+                "key": "D",
+                "text": "{ \"address->city\": \"New York\" }"
+            }
+        ],
+        "answers": [
+            "B"
+        ],
+        "explanation": "\u2705 **Correct Answer: B**\n\nTo query nested fields in MongoDB, use **dot notation**:\n```js\ndb.collection.find({ \"address.city\": \"New York\" })\n```\nThis matches documents where the `city` field inside `address` equals `'New York'`.\n\n---\n\n\u274c **A:** Works only if the `address` field has exactly `{ city: \"New York\" }`, with no other subfields.\n\u274c **C/D:** Invalid syntax.\n\n---\n\n\ud83d\udcd8 **Takeaway:**\nUse dot notation to access and filter nested fields in MongoDB documents.",
+        "author": "prashanth",
+        "created_at": "2025-06-05T11:50:06.431000",
+        "updated_at": "2025-06-05T11:50:06.431000"
+    },
+    {
+        "topic": "CRUD",
+        "subtopic": "Array equality matching",
+        "difficulty": "Beginner",
+        "type": "multi",
+        "stem": "If you run db.items.find({ tags: 'red' }), which documents match?",
+        "options": [
+            {
+                "key": "A",
+                "text": "Doc A: { _id: 1, tags: ['red', 'blue'] }"
+            },
+            {
+                "key": "B",
+                "text": "Doc B: { _id: 2, tags: ['green', 'yellow'] }"
+            },
+            {
+                "key": "C",
+                "text": "Doc C: { _id: 3, tags: 'red' }"
+            },
+            {
+                "key": "D",
+                "text": "Doc D: { _id: 4, tags: [['red','blue'], 'green'] }"
+            },
+            {
+                "key": "E",
+                "text": "Doc E: { _id: 5, other: 'red' }"
+            }
+        ],
+        "answers": [
+            "A",
+            "C"
+        ],
+        "explanation": {
+            "why_correct": [
+                "MongoDB interprets { tags: 'red' } as: 'Field tags exists and either equals the string \"red\" (scalar) OR is an array that contains an element exactly equal to the string \"red\" (at the top level of that array).'",
+                "Doc A matches because 'red' is a top-level element of the array ['red', 'blue'].",
+                "Doc C matches because tags is exactly the scalar string 'red'."
+            ],
+            "why_incorrect": [
+                "Doc B does not match because the array ['green','yellow'] has no element equal to 'red'.",
+                "Doc D does not match because the top-level elements are (1) ['red','blue'] (an array) and (2) 'green'. The string 'red' is nested inside the inner array, but MongoDB does NOT descend into nested arrays for simple equality; it only checks top-level elements of the field's array.",
+                "Doc E does not match because the field 'tags' is missing; the value 'red' is in a different field ('other')."
+            ],
+            "mini_examples": [
+                "Example 1 (matches): db.items.find({ tags: 'red' }) matches { tags: ['red','blue'] } and { tags: 'red' }.",
+                "Example 2 (no deep match): db.items.find({ tags: 'red' }) does NOT match { tags: [['red','blue'], 'green'] } because 'red' is not a top-level element; it's inside a sub-array.",
+                "Example 3 (array equality): db.items.find({ tags: ['red','blue'] }) would only match documents whose tags field is exactly the array ['red','blue'] in the same order."
+            ]
+        },
+        "version": 2,
+        "status": "active",
+        "author": "prashanth",
+        "created_at": "2025-11-08T18:02:48.182000",
+        "updated_at": "2025-11-08T18:02:48.183000"
+    },
+    {
+        "topic": "Indexes",
+        "subtopic": "Compound Indexes",
+        "difficulty": "Intermediate",
+        "type": "multi",
+        "stem": "Given the compound index { age: 1, city: 1 }, which queries can fully use this index to filter documents efficiently (no in-memory residual filtering)?",
+        "options": [
+            {
+                "key": "A",
+                "text": "db.users.find({ age: 25, city: 'Delhi' })"
+            },
+            {
+                "key": "B",
+                "text": "db.users.find({ city: 'Delhi', age: 25 })"
+            },
+            {
+                "key": "C",
+                "text": "db.users.find({ age: { $gt: 20 }, city: 'Delhi' })"
+            },
+            {
+                "key": "D",
+                "text": "db.users.find({ city: 'Delhi' })"
+            },
+            {
+                "key": "E",
+                "text": "db.users.find({ age: 25 })"
+            }
+        ],
+        "answers": [
+            "A",
+            "B",
+            "E"
+        ],
+        "explanation": {
+            "why_correct": [
+                "A: Equality on the leading key (age) and on the next key (city) allows tight index bounds on both; fully index-filtered.",
+                "B: Query field order is irrelevant; the planner still applies the index prefix rule (age first, then city). Fully index-filtered.",
+                "E: Equality on the leading key (age) alone is sufficient to fully filter via the index without residual in-memory filtering."
+            ],
+            "why_incorrect": [
+                "C: A range on the leading field (age > 20) prevents using subsequent fields (city) as index bounds in the same scan. City is applied as a residual in-memory filter, so it is not 'fully' using the index.",
+                "D: The query does not constrain the leading field (age). With index { age, city }, starting from city alone is inefficient and typically results in scanning/skip or residual filtering."
+            ],
+            "mini_examples": [
+                "db.users.find({ age: 25, city: 'Delhi' }) \u2192 index bounds on age [25,25], city ['Delhi','Delhi']",
+                "db.users.find({ age: 25 }) \u2192 index bounds on age [25,25]; no residual filter",
+                "db.users.find({ age: { $gt: 20 }, city: 'Delhi' }) \u2192 index bounds on age (20, +\u221e) + residual filter city == 'Delhi' (not fully index-filtered)"
+            ]
+        },
+        "version": 1,
+        "status": "active",
+        "author": "prashanth",
+        "created_at": "2025-11-08T18:03:14.199000",
+        "updated_at": "2025-11-08T18:03:14.199000"
+    },
+    {
+        "topic": "Indexes",
+        "subtopic": "Compound Index Sort Optimization",
+        "difficulty": "Intermediate",
+        "type": "multi",
+        "stem": "Given the compound index { customerId: 1, orderDate: -1 }, which queries can use this index for both filtering and sorting without an in-memory sort?",
+        "options": [
+            {
+                "key": "A",
+                "text": "db.orders.find({ customerId: 42 }).sort({ orderDate: -1 })"
+            },
+            {
+                "key": "B",
+                "text": "db.orders.find({ customerId: 42 }).sort({ orderDate: 1 })"
+            },
+            {
+                "key": "C",
+                "text": "db.orders.find({}).sort({ customerId: 1, orderDate: -1 })"
+            },
+            {
+                "key": "D",
+                "text": "db.orders.find({ orderDate: { $gt: ISODate('2024-01-01') } }).sort({ customerId: 1 })"
+            },
+            {
+                "key": "E",
+                "text": "db.orders.find({}).sort({ orderDate: -1 })"
+            }
+        ],
+        "answers": [
+            "A"
+        ],
+        "explanation": {
+            "why_correct": [
+                "A: Matches the index structure perfectly. customerId=42 fixes the first field, and sort orderDate:-1 matches index direction. Fully uses index for both filter and sort."
+            ],
+            "why_incorrect": [
+                "B: Sort direction (orderDate:1) conflicts with index\u2019s -1 direction.",
+                "C: Uses index for sorting but not filtering; partial usage only.",
+                "D: No filter on the leading field (customerId), so cannot sort efficiently using this index.",
+                "E: Sort on only the second field (orderDate) breaks the prefix rule; cannot use index sort."
+            ],
+            "mini_examples": [
+                "IXSCAN on { customerId: 1, orderDate: -1 } supports sorting { customerId: 1, orderDate: -1 }.",
+                "Reversing both directions also works: index { customerId: -1, orderDate: 1 } could support sort({ customerId: -1, orderDate: 1 }).",
+                "But reversing only one field breaks index order and causes in-memory sort."
+            ]
+        },
+        "version": 1,
+        "status": "active",
+        "author": "prashanth",
+        "created_at": "2025-11-08T18:03:52.447000",
+        "updated_at": "2025-11-08T18:03:52.447000"
+    },
+    {
+        "topic": "CRUD",
+        "subtopic": "Update operators ($set and $unset)",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "You have the following document and run the given update. What will the final document look like?",
+        "document_before": {
+            "_id": 1,
+            "name": "Pranay",
+            "contact": {
+                "email": "p@example.com",
+                "phone": "99999"
+            },
+            "city": "Hyderabad"
+        },
+        "operation": {
+            "command": "db.users.updateOne",
+            "filter": {
+                "_id": 1
+            },
+            "update": {
+                "$set": {
+                    "contact.phone": null
+                },
+                "$unset": {
+                    "city": ""
+                }
+            }
+        },
+        "options": [
+            {
+                "key": "A",
+                "text": {
+                    "_id": 1,
+                    "name": "Pranay",
+                    "contact": {
+                        "email": "p@example.com"
+                    },
+                    "city": null
+                }
+            },
+            {
+                "key": "B",
+                "text": {
+                    "_id": 1,
+                    "name": "Pranay",
+                    "contact": {
+                        "email": "p@example.com",
+                        "phone": null
+                    }
+                }
+            },
+            {
+                "key": "C",
+                "text": {
+                    "_id": 1,
+                    "name": "Pranay",
+                    "contact": {
+                        "email": "p@example.com",
+                        "phone": null
+                    },
+                    "city": null
+                }
+            },
+            {
+                "key": "D",
+                "text": {
+                    "_id": 1,
+                    "name": "Pranay",
+                    "contact": {
+                        "email": "p@example.com",
+                        "phone": null
+                    }
+                }
+            }
+        ],
+        "answers": [
+            "D"
+        ],
+        "explanation": {
+            "why_correct": [
+                "$set assigns the field 'contact.phone' to null \u2014 it still exists but holds a null value.",
+                "$unset removes the field 'city' completely from the document (not set to null)."
+            ],
+            "why_incorrect": [
+                "A: Incorrect because $unset removes the field instead of setting it to null.",
+                "B: Incorrect because it ignores the $unset and leaves city present.",
+                "C: Incorrect because city should be deleted, not null."
+            ],
+            "mini_examples": [
+                "db.users.updateOne({ _id: 1 }, { $unset: { city: '' } }) removes the 'city' key entirely.",
+                "db.users.updateOne({ _id: 1 }, { $set: { 'contact.phone': null } }) leaves the 'phone' key present with a null value."
+            ]
+        },
+        "version": 1,
+        "status": "active",
+        "author": "prashanth",
+        "created_at": "2025-11-08T18:04:11.757000",
+        "updated_at": "2025-11-08T18:04:11.758000"
+    },
+    {
+        "topic": "Aggregation",
+        "subtopic": "$match vs $project (index use & coverage)",
+        "difficulty": "Intermediate",
+        "type": "multi",
+        "stem": "You have an index { city: 1, name: 1 }. Return only name and city for users in Hyderabad, using the index efficiently and (if possible) as a covered query. Which pipelines satisfy this goal best?",
+        "index": {
+            "city": 1,
+            "name": 1
+        },
+        "sample_doc": {
+            "_id": 1,
+            "name": "Pranay",
+            "city": "Hyderabad",
+            "age": 26
+        },
+        "options": [
+            {
+                "key": "A",
+                "text": [
+                    {
+                        "$project": {
+                            "name": 1,
+                            "city": 1,
+                            "_id": 0
+                        }
+                    },
+                    {
+                        "$match": {
+                            "city": "Hyderabad"
+                        }
+                    }
+                ]
+            },
+            {
+                "key": "B",
+                "text": [
+                    {
+                        "$match": {
+                            "city": "Hyderabad"
+                        }
+                    },
+                    {
+                        "$project": {
+                            "name": 1,
+                            "city": 1,
+                            "_id": 0
+                        }
+                    }
+                ]
+            },
+            {
+                "key": "C",
+                "text": [
+                    {
+                        "$match": {
+                            "name": "Pranay"
+                        }
+                    },
+                    {
+                        "$project": {
+                            "city": 1,
+                            "_id": 0
+                        }
+                    }
+                ]
+            },
+            {
+                "key": "D",
+                "text": [
+                    {
+                        "$project": {
+                            "city": 1,
+                            "_id": 0
+                        }
+                    },
+                    {
+                        "$match": {
+                            "name": "Pranay"
+                        }
+                    }
+                ]
+            },
+            {
+                "key": "E",
+                "text": [
+                    {
+                        "$match": {
+                            "city": {
+                                "$in": [
+                                    "Hyderabad"
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "$project": {
+                            "name": 1,
+                            "city": 1
+                        }
+                    }
+                ]
+            }
+        ],
+        "answers": [
+            "B"
+        ],
+        "explanation": {
+            "why_correct": [
+                "B: $match on the leading index field (city) pushes bounds to the IXSCAN; $project includes only name and city and excludes _id, making it a covered query."
+            ],
+            "why_incorrect": [
+                "A: $project before $match blocks predicate pushdown and breaks efficient index use.",
+                "C: Filters by the non-leading key (name) only; does not meet 'users in Hyderabad' and is poor index use.",
+                "D: Projection first + filter on second key (name) \u2014 prevents index pushdown and violates prefix rule.",
+                "E: Efficient filter via index, but includes _id implicitly; requires document fetch, so not covered."
+            ],
+            "mini_examples": [
+                "Covered query requirement: All returned fields must exist in the index and _id must be excluded.",
+                "Prefix rule: To exploit a compound index, start with constraints on its leading fields.",
+                "Pipeline order matters: Place $match early to enable index pushdown."
+            ]
+        },
+        "version": 1,
+        "status": "active",
+        "author": "prashanth",
+        "created_at": "2025-11-08T18:04:28.403000",
+        "updated_at": "2025-11-08T18:04:28.403000"
+    },
+    {
+        "topic": "MongoDB Overview & Document Model",
+        "subtopic": "BSON Types and Storage",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "Which of the following statements about BSON and data storage in MongoDB is TRUE?",
+        "options": [
+            {
+                "key": "A",
+                "text": "MongoDB stores documents internally as JSON text for readability."
+            },
+            {
+                "key": "B",
+                "text": "BSON supports more data types than JSON, including dates and binary data."
+            },
+            {
+                "key": "C",
+                "text": "BSON stores all numeric values as strings to preserve precision."
+            },
+            {
+                "key": "D",
+                "text": "BSON is only used for exporting data; MongoDB stores data as plain objects."
+            }
+        ],
+        "answers": [
+            "B"
+        ],
+        "explanation": {
+            "why_correct": [
+                "BSON (Binary JSON) extends JSON by adding additional types such as Date, ObjectId, Binary, Regex, Decimal128, Timestamp, MinKey, and MaxKey."
+            ],
+            "why_incorrect": [
+                "A: MongoDB stores data as binary-encoded BSON, not human-readable JSON.",
+                "C: Numeric values are stored as int32, int64, double, or decimal128 types, not strings.",
+                "D: BSON is MongoDB\u2019s internal storage and wire-transfer format, not just for export."
+            ],
+            "mini_examples": [
+                "{ _id: ObjectId('6711bfe34ac1d2f52a23a4c7'), createdAt: ISODate('2025-11-02T00:00:00Z') } \u2014 shows BSON types used internally."
+            ]
+        },
+        "version": 1,
+        "status": "active",
+        "author": "prashanth",
+        "created_at": "2025-11-08T18:04:53.065000",
+        "updated_at": "2025-11-08T18:04:53.065000"
+    },
+    {
+        "topic": "MongoDB Overview & Document Model",
+        "subtopic": "Document structure and nesting limits",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "Which of the following statements about MongoDB document structure and nesting is TRUE?",
+        "options": [
+            {
+                "key": "A",
+                "text": "MongoDB documents can be nested to any depth and size limit as long as field names are unique."
+            },
+            {
+                "key": "B",
+                "text": "MongoDB documents cannot contain arrays inside arrays."
+            },
+            {
+                "key": "C",
+                "text": "A document can have up to 100 levels of nesting and a maximum size of 16 MB."
+            },
+            {
+                "key": "D",
+                "text": "A document\u2019s maximum nesting depth is 50 levels and the maximum size is 1 MB."
+            }
+        ],
+        "answers": [
+            "C"
+        ],
+        "explanation": {
+            "why_correct": [
+                "MongoDB enforces a 16 MB document size limit and allows up to 100 levels of nested documents or arrays."
+            ],
+            "why_incorrect": [
+                "A: Incorrect \u2014 both document size and nesting have strict limits.",
+                "B: Incorrect \u2014 arrays can contain other arrays.",
+                "D: Incorrect \u2014 size limit is 16 MB, nesting limit is 100 levels."
+            ],
+            "mini_examples": [
+                "Valid: { a: { b: { c: 'ok' } } } \u2192 within nesting limit.",
+                "Invalid: 101 nested levels \u2192 throws BSONObj depth limit exceeded.",
+                "Valid nested arrays: { x: [1, [2, 3]] }."
+            ]
+        },
+        "version": 1,
+        "status": "active",
+        "author": "prashanth",
+        "created_at": "2025-11-08T18:05:04.082000",
+        "updated_at": "2025-11-08T18:05:04.082000"
+    },
+    {
+        "topic": "MongoDB Overview & Document Model",
+        "subtopic": "Field naming rules and restrictions",
+        "difficulty": "Beginner",
+        "type": "multi",
+        "stem": "Which of the following field names are invalid in MongoDB documents?",
+        "options": [
+            {
+                "key": "A",
+                "text": "\"address.city\""
+            },
+            {
+                "key": "B",
+                "text": "\"$region\""
+            },
+            {
+                "key": "C",
+                "text": "\"user name\""
+            },
+            {
+                "key": "D",
+                "text": "\"contact_info\""
+            },
+            {
+                "key": "E",
+                "text": "\"1st_name\""
+            }
+        ],
+        "answers": [
+            "A",
+            "B"
+        ],
+        "explanation": {
+            "why_correct": [
+                "A: '.' is not allowed in field names because MongoDB uses it to access subfields (e.g., 'address.city').",
+                "B: '$' is reserved for query and update operators, so field names cannot start with it."
+            ],
+            "why_incorrect": [
+                "C: Allowed but not recommended because spaces make field access harder.",
+                "D: Underscores are perfectly valid and widely used.",
+                "E: Field names can start with digits; MongoDB treats them as strings."
+            ],
+            "mini_examples": [
+                "Invalid: { 'user.$id': 5 }, { 'a.b': 1 }",
+                "Valid: { 'user_id': 5 }, { '1st_name': 'Alice' }, { 'user name': 'Bob' }"
+            ]
+        },
+        "version": 1,
+        "status": "active",
+        "author": "prashanth",
+        "created_at": "2025-11-08T18:05:13.300000",
+        "updated_at": "2025-11-08T18:05:13.301000"
+    },
+    {
+        "topic": "MongoDB Overview & Document Model",
+        "subtopic": "_id field and ObjectId behavior",
+        "difficulty": "Beginner",
+        "type": "single",
+        "stem": "Which of the following statements about the _id field and ObjectId in MongoDB is TRUE?",
+        "options": [
+            {
+                "key": "A",
+                "text": "MongoDB automatically adds an _id field only if you create an index manually."
+            },
+            {
+                "key": "B",
+                "text": "The _id field must always be an ObjectId generated by MongoDB."
+            },
+            {
+                "key": "C",
+                "text": "The _id field is automatically indexed and must be unique within the collection."
+            },
+            {
+                "key": "D",
+                "text": "The _id field can be removed from a document after insertion if no index depends on it."
+            }
+        ],
+        "answers": [
+            "C"
+        ],
+        "explanation": {
+            "why_correct": [
+                "MongoDB automatically creates a unique index on the _id field for every collection, ensuring each document has a unique identifier."
+            ],
+            "why_incorrect": [
+                "A: The _id field is added automatically for all documents, not only when an index is created.",
+                "B: _id can be any unique value (ObjectId is just the default).",
+                "D: _id is required and cannot be removed once the document exists."
+            ],
+            "mini_examples": [
+                "db.users.insertOne({ name: 'Pranay' }) \u2192 MongoDB adds _id automatically.",
+                "db.users.insertOne({ _id: 'custom', name: 'Vipplav' }) \u2192 Works fine; custom ID allowed.",
+                "db.users.getIndexes() \u2192 shows automatic unique index on _id."
+            ]
+        },
+        "version": 1,
+        "status": "active",
+        "author": "prashanth",
+        "created_at": "2025-11-08T18:05:25.381000",
+        "updated_at": "2025-11-08T18:05:25.382000"
+    },
+    {
+        "topic": "MongoDB Overview & Document Model",
+        "subtopic": "ObjectId timestamp and generation logic",
+        "difficulty": "Intermediate",
+        "type": "single",
+        "stem": "Each MongoDB ObjectId value encodes multiple pieces of information inside its 12 bytes. Which of the following correctly describes how an ObjectId is structured?",
+        "options": [
+            {
+                "key": "A",
+                "text": "12 bytes = 3 bytes for machine ID + 3 bytes for process ID + 6 bytes for timestamp"
+            },
+            {
+                "key": "B",
+                "text": "12 bytes = 4 bytes for timestamp + 5 bytes for random value + 3 bytes for incrementing counter"
+            },
+            {
+                "key": "C",
+                "text": "12 bytes = 6 bytes for timestamp + 6 bytes for random counter"
+            },
+            {
+                "key": "D",
+                "text": "12 bytes = 8 bytes for timestamp + 4 bytes for process ID"
+            }
+        ],
+        "answers": [
+            "B"
+        ],
+        "explanation": {
+            "why_correct": [
+                "ObjectId is 12 bytes composed of: 4 bytes timestamp, 5 bytes random value (machine + process hash), and 3 bytes counter."
+            ],
+            "why_incorrect": [
+                "A: Incorrect size allocations; timestamp is 4 bytes, not 6.",
+                "C: Missing counter and random breakdown; timestamp is not 6 bytes.",
+                "D: ObjectId does not store 8-byte timestamps or separate process IDs."
+            ],
+            "mini_examples": [
+                "ObjectId('67131af6b347c87b2b2e2d1f') \u2192 timestamp encodes creation time.",
+                "In Python: ObjectId(...).generation_time \u2192 gives the encoded timestamp."
+            ]
+        },
+        "version": 1,
+        "status": "active",
+        "author": "prashanth",
+        "created_at": "2025-11-08T18:05:35.241000",
+        "updated_at": "2025-11-08T18:05:35.241000"
+    },
+    {
+        "topic": "MongoDB Overview & Document Model",
+        "subtopic": "Null vs missing field behavior",
+        "difficulty": "Intermediate",
+        "type": "single",
+        "stem": "Given two documents \u2014 one with email: null and another with no email field \u2014 which documents will be returned by the query db.users.find({ email: null })?",
+        "sample_docs": [
+            {
+                "_id": 1,
+                "name": "Pranay",
+                "email": null
+            },
+            {
+                "_id": 2,
+                "name": "Vipplav"
+            }
+        ],
+        "options": [
+            {
+                "key": "A",
+                "text": "Only { _id: 1, name: 'Pranay', email: null }"
+            },
+            {
+                "key": "B",
+                "text": "Only { _id: 2, name: 'Vipplav' }"
+            },
+            {
+                "key": "C",
+                "text": "Both documents (_id: 1 and _id: 2)"
+            },
+            {
+                "key": "D",
+                "text": "Neither of the documents"
+            }
+        ],
+        "answers": [
+            "C"
+        ],
+        "explanation": {
+            "why_correct": [
+                "db.users.find({ email: null }) returns both documents where the email field is either explicitly null or does not exist."
+            ],
+            "why_incorrect": [
+                "A: Incomplete \u2014 documents missing the field also match.",
+                "B: Incorrect \u2014 null fields are included too.",
+                "D: Incorrect \u2014 both documents qualify."
+            ],
+            "mini_examples": [
+                "db.users.find({ email: null }) \u2192 matches both null and missing fields.",
+                "db.users.find({ email: null, email: { $exists: true } }) \u2192 matches only explicit nulls."
+            ]
+        },
+        "version": 1,
+        "status": "active",
+        "author": "prashanth",
+        "created_at": "2025-11-08T18:05:46.469000",
+        "updated_at": "2025-11-08T18:05:46.469000"
+    },
+    {
+        "topic": "MongoDB Overview & Document Model",
+        "subtopic": "Embedding vs referencing",
+        "difficulty": "Intermediate",
+        "type": "single",
+        "stem": "You are designing a MongoDB schema for a blogging platform. Each user can have many posts. Which schema design is most appropriate if you often display posts together with the user's name and profile picture, and rarely update user information?",
+        "options": [
+            {
+                "key": "A",
+                "text": "Embed the entire user document inside each post document."
+            },
+            {
+                "key": "B",
+                "text": "Embed an array of posts inside each user document."
+            },
+            {
+                "key": "C",
+                "text": "Store users and posts in separate collections and use the user _id as a reference inside each post."
+            },
+            {
+                "key": "D",
+                "text": "Store all posts in a single document with a field per user."
+            }
+        ],
+        "answers": [
+            "B"
+        ],
+        "explanation": {
+            "why_correct": [
+                "Embedding posts within a user document allows efficient reads when user and post data are often accessed together and user updates are infrequent."
+            ],
+            "why_incorrect": [
+                "A: Causes excessive duplication and complicated updates when user data changes.",
+                "C: Referencing is better for one-to-many relationships with large or independent child collections, not for tight one-to-few coupling.",
+                "D: Violates document model principles and 16 MB size limit."
+            ],
+            "mini_examples": [
+                "{ _id: 1, name: 'Pranay', posts: [ { title: 'Intro to MongoDB' }, { title: 'Indexing Guide' } ] }",
+                "// Referencing alternative for high-volume cases \u2192 { user_id: 1, title: 'Intro to MongoDB' }"
+            ]
+        },
+        "version": 1,
+        "status": "active",
+        "author": "prashanth",
+        "created_at": "2025-11-08T18:06:01.673000",
+        "updated_at": "2025-11-08T18:06:01.674000"
+    },
+    {
+        "topic": "MongoDB Overview & Document Model",
+        "subtopic": "Schema design anti-patterns",
+        "difficulty": "Intermediate",
+        "type": "single",
+        "stem": "Which of the following is considered a bad schema design practice (anti-pattern) in MongoDB?",
+        "options": [
+            {
+                "key": "A",
+                "text": "Embedding small, related data that is always queried together."
+            },
+            {
+                "key": "B",
+                "text": "Using referencing for data that grows unbounded over time."
+            },
+            {
+                "key": "C",
+                "text": "Storing an ever-growing array (e.g., logs or comments) inside a single document."
+            },
+            {
+                "key": "D",
+                "text": "Using multiple collections for unrelated data."
+            }
+        ],
+        "answers": [
+            "C"
+        ],
+        "explanation": {
+            "why_correct": [
+                "Embedding unbounded arrays causes documents to grow continuously and may exceed the 16 MB BSON limit, leading to poor performance and contention."
+            ],
+            "why_incorrect": [
+                "A: Recommended practice \u2014 embedding small related data improves read efficiency.",
+                "B: Correct approach for unbounded growth scenarios; referencing prevents oversized documents.",
+                "D: Valid \u2014 unrelated data should always go in separate collections."
+            ],
+            "mini_examples": [
+                "Anti-pattern: { user: 'Pranay', logs: [ ...thousands of items... ] }",
+                "Better: Each log stored as a separate document in a 'logs' collection.",
+                "Rule: Embed only when the child array is small and bounded."
+            ]
+        },
+        "version": 1,
+        "status": "active",
+        "author": "prashanth",
+        "created_at": "2025-11-08T18:06:25.055000",
+        "updated_at": "2025-11-08T18:06:25.055000"
+    }
+]
