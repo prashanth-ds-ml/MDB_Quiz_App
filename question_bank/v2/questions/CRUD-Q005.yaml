@@ -1,0 +1,62 @@
+schema_version: '2.0'
+id: CRUD-Q005
+title: Match documents using $in operator
+topic: CRUD
+subtopic: Query operators – $in
+difficulty: easy
+type: single
+tags:
+- find
+- in-operator
+- filters
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'You are searching for data in a small area in downtown Chicago with the following zip codes: "60601", "60602",
+  "60603", "60604", "60605", "60606". Which of the following query documents should you use to ensure that only
+  the documents with the specified zip codes are returned?
+
+  '
+context: 'Each document contains a field named `zip` that stores a single ZIP code as a string.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - $in matches documents where the field value equals ANY value in the provided array.
+  - $nin is the logical opposite of $in.
+  - Equality without $in can match only ONE value.
+choices:
+- key: A
+  text: '{ zip: { $nin: ["60601", "60602", "60603", "60604", "60605", "60606"] } }'
+- key: B
+  text: '{ zip: { $in: ["60601", "60602", "60603", "60604", "60605", "60606"] } }'
+- key: C
+  text: '{ zip: { $eq: "60601", "60602", "60603", "60604", "60605", "60606" } }'
+- key: D
+  text: '{ zip: "60601", "60602", "60603", "60604", "60605", "60606" }'
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'Multiple allowed values for one field → use $in.
+
+    '
+  correct_why:
+  - $in returns documents where the field matches any value in the array.
+  - This ensures only the specified ZIP codes are returned.
+  - This is the standard pattern tested for multi-value filters.
+  wrong_why:
+    A: $nin excludes the listed values instead of including them.
+    C: $eq matches only one value and cannot accept multiple values.
+    D: Implicit equality can match only a single value, not multiple.
+  trap: 'Confusing $in with $nin or assuming equality can accept multiple values.
+
+    '
+  mini_demo: "db.addresses.find({\n  zip: { $in: [\"60601\", \"60602\", \"60603\", \"60604\", \"60605\", \"60606\"\
+    ] }\n})\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

@@ -1,0 +1,60 @@
+schema_version: '2.0'
+id: CRUD-Q004
+title: Find documents in a collection
+topic: CRUD
+subtopic: find()
+difficulty: easy
+type: single
+tags:
+- find
+- query
+- mongosh
+exam_relevance:
+  pool: learning
+  confidence: high
+prompt: 'What methods are available in MongoDB for finding documents?
+
+  '
+context: 'You are working in the MongoDB Shell (mongosh) and need to retrieve documents from a collection.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - find() is the primary method used to retrieve documents.
+  - findOne() also exists, but find() returns a cursor and can match multiple documents.
+  - Methods like query() or search() are not MongoDB Shell methods.
+choices:
+- key: A
+  text: .find()
+- key: B
+  text: .query()
+- key: C
+  text: .finding()
+- key: D
+  text: .search()
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'To retrieve documents → use find().
+
+    '
+  correct_why:
+  - find() is a valid MongoDB Shell method for retrieving documents.
+  - It can return zero, one, or many documents depending on the query.
+  - This is the foundational read operation in MongoDB CRUD.
+  wrong_why:
+    B: query() is not a MongoDB Shell method.
+    C: finding() does not exist in the MongoDB API.
+    D: search() is related to Atlas Search, not basic document retrieval.
+  trap: 'Confusing Atlas Search terminology with basic CRUD read operations.
+
+    '
+  mini_demo: 'db.users.find({ role: "admin" })
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-13'

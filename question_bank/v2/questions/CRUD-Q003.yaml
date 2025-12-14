@@ -1,0 +1,60 @@
+schema_version: '2.0'
+id: CRUD-Q003
+title: Insert multiple documents
+topic: CRUD
+subtopic: insertMany()
+difficulty: easy
+type: single
+tags:
+- insert
+- mongosh
+- bulk-insert
+exam_relevance:
+  pool: learning
+  confidence: high
+prompt: 'What methods are available in MongoDB for inserting multiple documents?
+
+  '
+context: 'You are working in the MongoDB Shell (mongosh) and need to insert more than one document into a collection
+  in a single operation.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - insertMany() is the standard method for inserting multiple documents at once.
+  - insertOne() is only for a single document.
+  - Bulk inserts are more efficient than repeated single inserts.
+choices:
+- key: A
+  text: .InsertDocument()
+- key: B
+  text: .inserting()
+- key: C
+  text: .insertOne()
+- key: D
+  text: .insertMany()
+answer:
+  keys:
+  - D
+rationale:
+  rule: 'Multiple documents → insertMany().
+
+    '
+  correct_why:
+  - insertMany() is a valid MongoDB Shell method for inserting multiple documents.
+  - It accepts an array of documents as input.
+  - This is the correct and recommended approach for bulk inserts.
+  wrong_why:
+    A: InsertDocument() is not a valid MongoDB Shell method.
+    B: inserting() does not exist in the MongoDB API.
+    C: insertOne() can insert only a single document, not multiple.
+  trap: 'Assuming insertOne() can automatically handle multiple documents if passed an array.
+
+    '
+  mini_demo: "db.users.insertMany([\n  { name: \"Alice\", role: \"admin\" },\n  { name: \"Bob\", role: \"user\"\
+    \ }\n])\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

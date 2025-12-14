@@ -2,3 +2,5 @@ pymongo
 streamlit
 plotly
 pandas
+pydantic>=2.7
+pyyaml>=6.0

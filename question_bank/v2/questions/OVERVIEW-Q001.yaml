@@ -1,0 +1,68 @@
+schema_version: '2.0'
+id: OVERVIEW-Q001
+title: MongoDB vs MongoDB Atlas relationship
+topic: MongoDB Overview
+subtopic: MongoDB vs Atlas
+difficulty: easy
+type: single
+tags:
+- atlas
+- architecture
+- basics
+exam_relevance:
+  pool: learning
+  confidence: high
+prompt: 'What is the relationship between the MongoDB database and MongoDB Atlas?
+
+  '
+context: 'MongoDB provides both a core database product and a managed cloud platform. Understanding how these two
+  relate is essential for deployment and architecture decisions.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - MongoDB Atlas is a fully managed Database-as-a-Service (DBaaS).
+  - The MongoDB database (server) is the core engine used by Atlas and self-managed deployments.
+  - Atlas runs MongoDB for you on AWS, Azure, or GCP.
+choices:
+- key: A
+  text: The MongoDB database is the locally deployed version of MongoDB Atlas.
+- key: B
+  text: The MongoDB database is a core element of MongoDB Atlas, which is a multi-cloud developer data platform.
+- key: C
+  text: The MongoDB database is the free version of MongoDB Atlas.
+- key: D
+  text: MongoDB Atlas is a lightweight client tool used to manage local MongoDB databases.
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'Atlas = managed platform built on top of the MongoDB database engine.
+
+    '
+  correct_why:
+  - MongoDB is the core database engine that stores and queries data.
+  - MongoDB Atlas is a managed service that runs MongoDB for you on cloud providers.
+  - Atlas adds features like backups, scaling, monitoring, and security on top of MongoDB.
+  wrong_why:
+    A: Atlas is not something that runs locally; it is a cloud-managed service.
+    C: MongoDB itself is not a 'free version' of Atlas; both free and paid tiers exist in Atlas.
+    D: Atlas is not a client tool; it is a full database platform.
+  trap: 'Confusing MongoDB (the database engine) with MongoDB Atlas (the managed cloud service).
+
+    '
+  mini_demo: '# MongoDB can run locally:
+
+    mongod --dbpath /data/db
+
+
+    # MongoDB Atlas runs the same MongoDB engine,
+
+    # but MongoDB Inc manages the infrastructure for you.
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-13'

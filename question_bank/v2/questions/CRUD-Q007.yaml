@@ -1,0 +1,69 @@
+schema_version: '2.0'
+id: CRUD-Q007
+title: Find customers aged 65 or older
+topic: CRUD
+subtopic: Comparison operators – $gte / $gt
+difficulty: easy
+type: multi
+tags:
+- find
+- comparison-operators
+- gte
+- gt
+- nested-fields
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Your company wants to offer a special discount for customers who are 65 or older. Your task is to find
+  the records for these customers. Which of the following queries would return documents for all customers aged
+  65 or older?
+
+  '
+context: 'Customer age is stored as a numeric field inside a nested document named `customer`.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - Use dot notation ("customer.age") to query nested fields.
+  - $gte includes the boundary value.
+  - $gt can also be used if you shift the boundary logically.
+choices:
+- key: A
+  text: '{ customer.age: { $gte: 65 } }'
+- key: B
+  text: '{ "customer.age": { $gt: 64 } }'
+- key: C
+  text: '{ "customer.age": { $gte: 65 } }'
+- key: D
+  text: '{ "customer.age": { $lte: 65 } }'
+answer:
+  keys:
+  - B
+  - C
+rationale:
+  rule: '“65 or older” means age ≥ 65.
+
+    '
+  correct_why:
+  - 'Option B works because $gt: 64 is logically equivalent to age ≥ 65.'
+  - 'Option C directly expresses the requirement using $gte: 65.'
+  - Both correctly include customers who are exactly 65.
+  wrong_why:
+    A: Missing quotes around the dotted field path makes the query invalid syntax.
+    D: '$lte: 65 returns customers aged 65 or younger, not older.'
+  trap: 'Mixing up $lte and $gte, or forgetting that $gt: 64 is equivalent to $gte: 65.
+
+    '
+  mini_demo: '# Two correct ways
+
+    db.customers.find({ "customer.age": { $gte: 65 } })
+
+    db.customers.find({ "customer.age": { $gt: 64 } })
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-13'

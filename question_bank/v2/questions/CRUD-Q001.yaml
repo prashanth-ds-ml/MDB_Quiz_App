@@ -1,0 +1,67 @@
+schema_version: "2.0"
+
+id: "CRUD-Q001"
+title: "Projection: exclude _id explicitly"
+topic: "CRUD"
+subtopic: "find() projection"
+difficulty: "easy"
+type: "single"
+tags: ["projection", "find", "defaults"]
+
+exam_relevance:
+  pool: "exam"
+  confidence: "high"
+
+prompt: >
+  Which query returns only the `name` field while excluding `_id`?
+
+context: >
+  You want a minimal response payload when reading user profiles.
+
+artifacts:
+  sample_docs:
+    - { "_id": 1, "name": "Alice", "age": 30 }
+    - { "_id": 2, "name": "Bob", "age": 25 }
+  snippets: []
+  notes:
+    - "MongoDB includes `_id` by default unless excluded."
+
+choices:
+  - key: "A"
+    text: 'db.users.find({}, { name: 1 })'
+  - key: "B"
+    text: 'db.users.find({}, { name: 1, _id: 0 })'
+  - key: "C"
+    text: 'db.users.find({}, { name: 1, _id: -1 })'
+  - key: "D"
+    text: 'db.users.find({}, { name: true })'
+
+answer:
+  keys: ["B"]
+
+rationale:
+  rule: >
+    In projections, `_id` is included by default unless you explicitly exclude it with `_id: 0`.
+
+  correct_why:
+    - "`name: 1` includes the name field."
+    - "`_id: 0` explicitly excludes `_id`."
+
+  wrong_why:
+    A: "`_id` is included by default, so `_id` still appears."
+    C: "`_id: -1` is not a valid way to exclude `_id` in projection."
+    D: "Boolean projections still include `_id` unless excluded."
+
+  trap: >
+    Many assume projecting only one field automatically removes `_id`, which is false.
+
+  mini_demo: |
+    db.users.find({}, { name: 1 }).limit(1)
+    // -> { _id: ObjectId(...), name: "Alice" }
+
+    db.users.find({}, { name: 1, _id: 0 }).limit(1)
+    // -> { name: "Alice" }
+
+status: "published"
+author: "prashanth"
+updated_at: "2025-12-13"

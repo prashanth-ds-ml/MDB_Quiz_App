@@ -1,0 +1,58 @@
+schema_version: '2.0'
+id: CRUD-Q002
+title: Insert a single document
+topic: CRUD
+subtopic: insertOne()
+difficulty: easy
+type: single
+tags:
+- insert
+- mongosh
+- basics
+exam_relevance:
+  pool: learning
+  confidence: high
+prompt: 'What methods are available in MongoDB for inserting a single document?
+
+  '
+context: 'You are working in the MongoDB Shell (mongosh) and need to add exactly one document to a collection.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - insertOne() is the standard and recommended method to insert a single document.
+  - insertMany() is used only when inserting multiple documents.
+  - Older insert() exists but is deprecated and not tested in the Associate exam.
+choices:
+- key: A
+  text: .insertOne()
+- key: B
+  text: .inserting()
+- key: C
+  text: .InsertDocument()
+- key: D
+  text: .insertMany()
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'One document → insertOne(), many documents → insertMany().
+
+    '
+  correct_why:
+  - insertOne() is a valid MongoDB Shell method for inserting exactly one document.
+  - It returns an acknowledgment with the inserted _id.
+  - This method is explicitly tested in CRUD basics for the Associate exam.
+  wrong_why:
+    B: inserting() is not a MongoDB Shell method.
+    C: InsertDocument() is not a valid MongoDB API method.
+    D: insertMany() is used only for inserting multiple documents, not a single one.
+  trap: 'Confusing insertMany() with insertOne() because both insert documents.
+
+    '
+  mini_demo: "db.users.insertOne({\n  name: \"Prashanth\",\n  role: \"developer\"\n})\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

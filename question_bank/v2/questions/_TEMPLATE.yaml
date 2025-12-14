@@ -1,0 +1,61 @@
+schema_version: "2.0"
+
+id: "CRUD-Q001"
+title: "Short title for review lists"
+topic: "CRUD"
+subtopic: "find() projection"
+difficulty: "easy"
+type: "single"
+tags: ["tag1", "tag2"]
+
+# INTERNAL ONLY (never shown in practice UI)
+exam_relevance:
+  pool: "learning"   # learning | exam
+  confidence: "high" # high | medium
+
+prompt: >
+  Your question stem here.
+
+context: >
+  Optional scenario.
+
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes: []
+
+choices:
+  - key: "A"
+    text: "Option A"
+  - key: "B"
+    text: "Option B"
+  - key: "C"
+    text: "Option C"
+  - key: "D"
+    text: "Option D"
+
+answer:
+  keys: ["B"]        # for multi: ["A","C"]
+
+rationale:
+  rule: >
+    One-line exam memory hook.
+
+  correct_why:
+    - "Bullet 1"
+    - "Bullet 2"
+
+  wrong_why:
+    A: "Why A is wrong"
+    C: "Why C is wrong"
+    D: "Why D is wrong"
+
+  trap: >
+    Optional misconception.
+
+  mini_demo: |
+    Optional mongosh / PyMongo snippet.
+
+status: "draft"      # draft | reviewed | published | archived
+author: "prashanth"
+updated_at: "2025-12-13"

@@ -1,0 +1,62 @@
+schema_version: '2.0'
+id: CRUD-Q006
+title: Filter using comparison operators
+topic: CRUD
+subtopic: Comparison operators – $lte
+difficulty: easy
+type: single
+tags:
+- find
+- comparison-operators
+- lte
+- nested-fields
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Your company is conducting research on customer experience and needs to identify unsatisfied customers.
+  You need to find all customers with a satisfaction rating of 1 or 2. Which of the following query documents would
+  return all such customers?
+
+  '
+context: 'The satisfaction rating is stored as a numeric field inside a nested document called `customer`.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - Use dot notation to query nested fields ("parent.child").
+  - $lte means less than or equal to.
+  - To include both 1 and 2, the comparison must allow equality.
+choices:
+- key: A
+  text: '{ "customer.satisfaction": { $gt: 1 } }'
+- key: B
+  text: '{ customer.satisfaction: { $lte: 2 } }'
+- key: C
+  text: '{ "customer.satisfaction": { $lt: 2 } }'
+- key: D
+  text: '{ "customer.satisfaction": { $lte: 2 } }'
+answer:
+  keys:
+  - D
+rationale:
+  rule: 'To match a range that includes the boundary value, use $lte or $gte.
+
+    '
+  correct_why:
+  - '$lte: 2 matches all values less than or equal to 2.'
+  - This correctly returns customers with satisfaction ratings of 1 or 2.
+  - Dot notation is used correctly to access the nested field.
+  wrong_why:
+    A: '$gt: 1 returns values greater than 1, which includes satisfied customers.'
+    B: Dot notation is missing quotes, making the query syntactically incorrect.
+    C: '$lt: 2 excludes customers with a rating of exactly 2.'
+  trap: 'Forgetting equality when the question explicitly includes boundary values (\"1 or 2\").
+
+    '
+  mini_demo: "db.customers.find({\n  \"customer.satisfaction\": { $lte: 2 }\n})\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'
