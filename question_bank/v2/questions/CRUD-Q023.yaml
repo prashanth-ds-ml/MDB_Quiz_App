@@ -1,0 +1,61 @@
+schema_version: '2.0'
+id: CRUD-Q023
+title: Effect of updateOne() with $set
+topic: CRUD
+subtopic: updateOne() with $set
+difficulty: easy
+type: single
+tags:
+- updateOne
+- $set
+- partial-update
+- exam-core
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: "After executing the following command, what will be true?\ndb.movies.updateOne(\n  { title: \"Inception\"\
+  \ },\n  { $set: { year: 2012, rating: 9.0 } }\n)\n"
+context: 'The `movies` collection already contains a document with the title "Inception" and other existing fields.
+
+  '
+artifacts:
+  sample_docs:
+  - title: Inception
+    director: Christopher Nolan
+    year: 2010
+  snippets: []
+  notes:
+  - $set updates only the specified fields.
+  - Fields not mentioned in $set remain unchanged.
+choices:
+- key: A
+  text: Only year and rating fields are updated or added
+- key: B
+  text: All other fields in the document are deleted
+- key: C
+  text: The operation fails
+- key: D
+  text: The entire document is replaced with only year and rating
+answer:
+  keys:
+  - A
+rationale:
+  rule: '$set performs a partial update and does not remove existing fields.
+
+    '
+  correct_why:
+  - $set updates existing fields or adds them if they do not exist.
+  - All other fields in the document remain unchanged.
+  - This is the safe way to modify specific fields.
+  wrong_why:
+    B: Field deletion happens only with replacement updates or $unset.
+    C: This is a valid update operation and does not fail.
+    D: Full replacement occurs only when no update operators are used.
+  trap: 'Confusing $set-based updates with full document replacement.
+
+    '
+  mini_demo: "// Before\n{ title: \"Inception\", director: \"Christopher Nolan\", year: 2010 }\n\n// After\n{\n\
+    \  title: \"Inception\",\n  director: \"Christopher Nolan\",\n  year: 2012,\n  rating: 9.0\n}\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

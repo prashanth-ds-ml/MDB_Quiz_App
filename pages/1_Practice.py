@@ -4,6 +4,7 @@ import json
 import random
 import sys
 from pathlib import Path
+from datetime import datetime
 
 import streamlit as st
 
@@ -13,6 +14,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 JSONL_PATH = ROOT / "question_bank" / "v2" / "questions.jsonl"
+REVISION_PATH = ROOT / "data" / "revision.json"
 
 
 def load_questions():
@@ -26,6 +28,56 @@ def load_questions():
                 continue
             rows.append(json.loads(line))
     return rows
+
+
+def now_iso():
+    return datetime.now().isoformat(timespec="seconds")
+
+
+def load_revision():
+    if not REVISION_PATH.exists():
+        return {"items": {}}
+    try:
+        return json.loads(REVISION_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return {"items": {}}
+
+
+def save_revision(state: dict):
+    REVISION_PATH.parent.mkdir(parents=True, exist_ok=True)
+    REVISION_PATH.write_text(json.dumps(state, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+def add_wrong_to_revision(q: dict, selected: list[str], source: str = "practice"):
+    qid = q.get("id")
+    if not qid:
+        return
+
+    rev = load_revision()
+    items = rev.setdefault("items", {})
+
+    rec = items.get(
+        qid,
+        {
+            "qid": qid,
+            "added_at": now_iso(),
+            "last_seen": None,
+            "times_seen": 0,
+            "times_wrong": 0,
+            "times_correct": 0,
+            "last_selected": [],
+            "source": source,
+        },
+    )
+
+    rec["last_seen"] = now_iso()
+    rec["times_seen"] += 1
+    rec["times_wrong"] += 1
+    rec["last_selected"] = selected
+    rec["source"] = source  # last source wins (fine)
+
+    items[qid] = rec
+    save_revision(rev)
 
 
 def pick_question(questions, topic=None, difficulty=None, only_published=True):
@@ -73,6 +125,8 @@ if "answered" not in st.session_state:
     st.session_state.answered = False
 if "user_keys" not in st.session_state:
     st.session_state.user_keys = []
+if "last_result" not in st.session_state:
+    st.session_state.last_result = None  # "correct" | "wrong" | None
 
 
 # Apply filters / new question
@@ -82,6 +136,7 @@ if st.sidebar.button("New question"):
     )
     st.session_state.answered = False
     st.session_state.user_keys = []
+    st.session_state.last_result = None
     # reset checkboxes for multi-select (if any)
     for k in list(st.session_state.keys()):
         if str(k).startswith("opt_"):
@@ -148,6 +203,13 @@ with col1:
         st.session_state.answered = True
         st.session_state.user_keys = user_keys
 
+        # Add to revision if wrong
+        if not grade(q, user_keys):
+            add_wrong_to_revision(q, user_keys, source="practice")
+            st.session_state.last_result = "wrong"
+        else:
+            st.session_state.last_result = "correct"
+
 with col2:
     if st.button("Next"):
         st.session_state.current_q = pick_question(
@@ -155,6 +217,7 @@ with col2:
         )
         st.session_state.answered = False
         st.session_state.user_keys = []
+        st.session_state.last_result = None
         for k in list(st.session_state.keys()):
             if str(k).startswith("opt_"):
                 del st.session_state[k]
@@ -173,6 +236,7 @@ if st.session_state.answered:
         correct_keys = (q.get("answer") or {}).get("keys", [])
         if correct_keys:
             st.info(f"Correct answer: **{', '.join(correct_keys)}**")
+        st.caption("Added to Revision automatically.")
 
     r = q.get("rationale") or {}
 

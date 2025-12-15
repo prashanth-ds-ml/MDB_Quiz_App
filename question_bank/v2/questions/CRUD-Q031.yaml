@@ -1,0 +1,69 @@
+schema_version: '2.0'
+id: CRUD-Q031
+title: Delete all routes for a specific airline
+topic: CRUD
+subtopic: deleteMany()
+difficulty: easy
+type: single
+tags:
+- deleteMany
+- filters
+- nested-fields
+- exam
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Air Berlin has filed for bankruptcy and ceased operations. You need to update the routes collection to
+  delete all documents that contain an airline name of Air Berlin. Which of the following queries should you use?
+  (Select one.)
+
+  '
+context: 'The documents are stored in the `routes` collection.
+
+  '
+artifacts:
+  sample_docs:
+  - _id: ObjectId('5f6a...')
+    airline:
+      name: Air Berlin
+    src_airport: TXL
+    dst_airport: LHR
+  notes:
+  - Multiple routes may exist for a single airline.
+  - Nested fields require dot notation.
+choices:
+- key: A
+  text: "db.routes.deleteOne({\n  \"airline.name\": \"Air Berlin\"\n})\n"
+- key: B
+  text: 'db.routes.delete("Air Berlin")
+
+    '
+- key: C
+  text: "db.routes.deleteMany({\n  \"airline.name\": \"Air Berlin\"\n})\n"
+- key: D
+  text: 'db.routes.deleteMany("Air Berlin")
+
+    '
+answer:
+  keys:
+  - C
+rationale:
+  rule: 'Use deleteMany() when removing all documents that match a condition.
+
+    '
+  correct_why:
+  - Multiple routes can belong to the same airline.
+  - deleteMany() removes all matching documents.
+  - The filter correctly targets the nested airline name.
+  wrong_why:
+    A: deleteOne() removes only a single matching document.
+    B: '`delete()` is not a valid MongoDB method.'
+    D: deleteMany() requires a filter document, not a string.
+  trap: 'Using deleteOne() when the question explicitly says delete ALL documents.
+
+    '
+  mini_demo: "// Deletes every Air Berlin route\ndb.routes.deleteMany(\n  { \"airline.name\": \"Air Berlin\" }\n\
+    )\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

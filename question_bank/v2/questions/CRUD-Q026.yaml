@@ -1,0 +1,74 @@
+schema_version: '2.0'
+id: CRUD-Q026
+title: Update a scalar field using $set
+topic: CRUD
+subtopic: updateOne() – $set
+difficulty: easy
+type: single
+tags:
+- update
+- $set
+- scalar-field
+- exam-core
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Air France has recently passed inspection. In the following document, you need to update the `result` field
+  from `"Fail"` to `"Pass"`. What should you include in your update document?
+
+  '
+context: 'You are working with the `inspections` collection and need to update the inspection outcome for a specific
+  business without modifying any other fields.
+
+  '
+artifacts:
+  sample_docs:
+  - _id: ObjectId('56d61033a378eccde8a837f9')
+    id: 31041-2015-ENFO
+    certificate_number: 3045325
+    business_name: AIR FRANCE
+    date: Jun 9, 2015
+    result: Fail
+    sector: Travel Agency - 440
+    address:
+      city: JAMAICA
+      zip: 11430
+      street: JFK INTL AIRPORT BLVD
+      number: 1
+  snippets: []
+  notes:
+  - The `result` field is a scalar string field.
+  - Only the inspection outcome needs to be changed.
+  - Other fields must remain unchanged.
+choices:
+- key: A
+  text: '{ $set: { result: "Pass" } }'
+- key: B
+  text: '{ $upsert: { result: "Pass" } }'
+- key: C
+  text: '{ $insert: { result: "Pass" } }'
+- key: D
+  text: '{ $push: { result: "Pass" } }'
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'Use $set to update the value of an existing scalar field.
+
+    '
+  correct_why:
+  - '`$set` updates only the specified field.'
+  - The existing `result` field is safely changed from `Fail` to `Pass`.
+  - All other document fields remain untouched.
+  wrong_why:
+    B: '`upsert` is an option, not an update operator.'
+    C: '`$insert` is not a valid MongoDB update operator.'
+    D: '`$push` is used only for array fields, not scalar values.'
+  trap: 'Confusing update operators with update options or array operators.
+
+    '
+  mini_demo: "db.inspections.updateOne(\n  { business_name: \"AIR FRANCE\" },\n  { $set: { result: \"Pass\" } }\n\
+    )\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

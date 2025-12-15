@@ -1,0 +1,62 @@
+schema_version: '2.0'
+id: CRUD-Q032
+title: Sort query results in ascending order
+topic: CRUD
+subtopic: find() with sort()
+difficulty: easy
+type: single
+tags:
+- find
+- sort
+- ascending
+- exam
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Using the inspections collection within the sample_training database, you need to find all inspections
+  that were passed. Your manager has requested that you organize this data by the certificate number in ascending
+  order. Which query should you use? (Select one.)
+
+  '
+context: 'The documents are stored in the `inspections` collection.
+
+  '
+artifacts:
+  sample_docs:
+  - _id: ObjectId('5f6a...')
+    certificate_number: 3045325
+    result: Pass
+  notes:
+  - Sorting is applied using the sort() method.
+  - Ascending order is specified using 1.
+choices:
+- key: A
+  text: "db.inspections\n  .find({ result: \"Pass\" })\n  .sort({ certificate_number: 1 });\n"
+- key: B
+  text: "db.inspections\n  .find({ result: \"Pass\" })\n  .sort({ certificate_number: -1 });\n"
+- key: C
+  text: "db.inspections.find(\n  { result: \"Pass\" },\n  { sort: { certificate_number: 1 } }\n);\n"
+- key: D
+  text: "db.inspections.find(\n  { result: \"Pass\" },\n  { sort: { certificate_number: -1 } }\n);\n"
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'Use the sort() method after find() to order query results.
+
+    '
+  correct_why:
+  - Filters only passed inspections.
+  - 'sort({ certificate_number: 1 }) sorts in ascending order.'
+  - Uses correct MongoDB method chaining.
+  wrong_why:
+    B: Sorts the results in descending order.
+    C: The second argument to find() is for projections, not sorting.
+    D: Incorrect sort placement and descending order.
+  trap: 'Attempting to use sort as a projection inside find().
+
+    '
+  mini_demo: "db.inspections\n  .find({ result: \"Pass\" })\n  .sort({ certificate_number: 1 })\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

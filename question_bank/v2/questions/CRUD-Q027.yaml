@@ -1,0 +1,64 @@
+schema_version: '2.0'
+id: CRUD-Q027
+title: findAndModify() return value with new:true
+topic: CRUD
+subtopic: findAndModify() behavior
+difficulty: medium
+type: single
+tags:
+- findAndModify
+- update
+- return-value
+- exam-trap
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Using the `zips` collection, you write the following query. This query updates the population (stored in
+  the `pop` field) for one zip code in Santa Fe, New Mexico. What will be returned? (Select one.)
+
+  '
+context: "db.zips.findAndModify({\n  query: { _id: ObjectId(\"5c8eccc1caa187d17ca72ee7\") },\n  update: { $set:\
+  \ { pop: 40000 } },\n  new: true\n})\n"
+artifacts:
+  sample_docs:
+  - _id: ObjectId('5c8eccc1caa187d17ca72ee7')
+    city: SANTA FE
+    state: NM
+    zip: '87501'
+    pop: 34054
+  snippets: []
+  notes:
+  - findAndModify() returns a document (not a write result).
+  - By default it returns the pre-update document unless new:true is set.
+choices:
+- key: A
+  text: The updated document, which contains a population of 40000
+- key: B
+  text: The original document, prior to the update, which contains a population of 34054
+- key: C
+  text: All documents with a population of 40000
+- key: D
+  text: A new document that contains only an _id field and a population field
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'findAndModify() returns the updated document when new:true is specified.
+
+    '
+  correct_why:
+  - new:true instructs MongoDB to return the document after the update.
+  - The matched document’s pop field becomes 40000.
+  - Only the single matched document is returned.
+  wrong_why:
+    B: Without new:true, the original (pre-update) document is returned.
+    C: findAndModify() targets and returns a single document, not multiple.
+    D: This operation updates an existing document; it does not create a minimal new one.
+  trap: 'Many forget that findAndModify() returns the OLD document by default.
+
+    '
+  mini_demo: "db.zips.findAndModify({\n  query: { zip: \"87501\" },\n  update: { $set: { pop: 40000 } },\n  new:\
+    \ true\n})\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

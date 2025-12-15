@@ -1,0 +1,89 @@
+schema_version: '2.0'
+id: CRUD-Q045
+title: Update many documents using update_many with $in
+topic: CRUD
+subtopic: update_many
+difficulty: easy
+type: single
+tags:
+- update_many
+- pymongo
+- $in
+- $set
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'The companies collection is missing data on the initial public offerings (IPO) for Linkedin and Facebook.
+  Given the Python file below, select the expression that sets the ipo field to True for the two companies. (Select
+  one.)
+
+  '
+context: '# Get reference to ''sample_training'' database
+
+  db = client.sample_training
+
+
+  # Get reference to ''companies'' collection
+
+  companies_collection = db.companies
+
+
+  # Filter
+
+  select_companies = { "name": { "$in": ["Facebook", "LinkedIn"] } }
+
+
+  # Update
+
+  set_ipo = { "$set": { "ipo": True } }
+
+  '
+artifacts:
+  sample_docs:
+  - name: Facebook
+    ipo: false
+  - name: LinkedIn
+    ipo: false
+  snippets: []
+  notes:
+  - update_many(filter, update) updates all matching documents.
+  - db is a database handle; update_many is called on the collection handle.
+choices:
+- key: A
+  text: 'result = sample_training.update_many(select_companies, set_ipo)
+
+    '
+- key: B
+  text: 'result = companies_collection.update_many(select_companies, set_ipo)
+
+    '
+- key: C
+  text: 'result = companies.update(select_companies, set_ipo)
+
+    '
+- key: D
+  text: 'result = companies_collection.update_many[select_companies, set_ipo]
+
+    '
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'To update multiple documents in PyMongo, call update_many() on the collection object with (filter, update).
+
+    '
+  correct_why:
+  - companies_collection is the collection handle.
+  - update_many(filter, update) correctly applies $set to both matched companies.
+  wrong_why:
+    A: update_many is not a database-level method; it must be called on a collection.
+    C: companies is not defined in the given context (and update() is not the intended method here).
+    D: 'Invalid syntax: [] indexing is not how you call methods.'
+  trap: 'Confusing db vs collection handles, and mixing method-call parentheses with bracket syntax.
+
+    '
+  mini_demo: "res = companies_collection.update_many(\n  {\"name\": {\"$in\": [\"Facebook\", \"LinkedIn\"]}},\n\
+    \  {\"$set\": {\"ipo\": True}}\n)\nprint(res.matched_count, res.modified_count)\n"
+status: published
+author: prashanth
+updated_at: '2025-12-15'

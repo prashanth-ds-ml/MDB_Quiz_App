@@ -1,0 +1,66 @@
+schema_version: '2.0'
+id: CRUD-Q015
+title: Valid insertOne() document structure
+topic: CRUD
+subtopic: insertOne() document validity
+difficulty: easy
+type: single
+tags:
+- insertOne
+- schema-flexibility
+- exam-trap
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'What is wrong with the following insert command?
+
+  db.movies.insertOne({ genres: "Drama", year: 2015 })
+
+  '
+context: 'You are inserting a new movie document into the `movies` collection and want to verify whether the document
+  structure is valid.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - MongoDB does not require a fixed schema by default.
+  - MongoDB automatically generates `_id` if it is not provided.
+  - Field data types are application-defined unless schema validation is enabled.
+choices:
+- key: A
+  text: genres should be an array
+- key: B
+  text: year should be a string
+- key: C
+  text: Document must include _id
+- key: D
+  text: Nothing is wrong with this command
+answer:
+  keys:
+  - D
+rationale:
+  rule: 'MongoDB allows flexible schemas and auto-generates `_id` values.
+
+    '
+  correct_why:
+  - MongoDB allows fields to store scalar values or arrays unless restricted by validation.
+  - The `year` field can be stored as a number.
+  - '`_id` is automatically generated if not explicitly provided.'
+  - Therefore, the insert command is valid.
+  wrong_why:
+    A: Arrays are optional; a single string value is allowed.
+    B: Numeric values are valid for year fields.
+    C: MongoDB auto-generates `_id` when missing.
+  trap: 'Assuming MongoDB enforces relational-style schemas or requires `_id` to be explicitly set.
+
+    '
+  mini_demo: 'db.movies.insertOne({ genres: "Drama", year: 2015 })
+
+    // Insert succeeds, MongoDB adds _id automatically
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-13'

@@ -1,0 +1,88 @@
+schema_version: '2.0'
+id: CRUD-Q009
+title: Equality match on scalar vs array field
+topic: CRUD
+subtopic: find() equality on arrays
+difficulty: easy
+type: single
+tags:
+- find
+- equality
+- arrays
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'What will the following query return? db.books.find({ genre: "Historical" })
+
+  '
+context: 'The `genre` field may be stored either as a single string value or as an array of strings in different
+  documents.
+
+  '
+artifacts:
+  sample_docs:
+  - _id: 1
+    title: Book A
+    genre: Historical
+  - _id: 2
+    title: Book B
+    genre:
+    - Fiction
+    - Historical
+  - _id: 3
+    title: Book C
+    genre:
+    - Fantasy
+  snippets: []
+  notes:
+  - An equality match on an array field returns documents where the array contains the value.
+  - MongoDB does NOT search across all fields unless explicitly told to do so.
+choices:
+- key: A
+  text: 'All documents where the `genre` field is equal to either the scalar value "Historical" or an array that
+    contains "Historical".
+
+    '
+- key: B
+  text: 'All documents that contain the string "Historical" across any field.
+
+    '
+- key: C
+  text: 'All documents where the `genre` field does not contain the value "Historical".
+
+    '
+- key: D
+  text: 'No documents, because equality matching does not work on arrays.
+
+    '
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'Equality matching works on both scalar fields and array elements.
+
+    '
+  correct_why:
+  - If the field is a scalar, MongoDB checks for direct equality.
+  - If the field is an array, MongoDB checks whether the array contains the value.
+  - This behavior is implicit and does not require $in or $elemMatch.
+  wrong_why:
+    B: A basic find() does not perform global text search across all fields.
+    C: The query checks for equality, not exclusion.
+    D: Equality matching *does* work on arrays by checking for membership.
+  trap: 'Assuming equality only works for scalar fields and not arrays.
+
+    '
+  mini_demo: '// Matches both documents below
+
+    db.books.find({ genre: "Historical" })
+
+    // { genre: "Historical" }
+
+    // { genre: ["Fiction", "Historical"] }
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-13'

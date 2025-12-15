@@ -1,0 +1,66 @@
+schema_version: '2.0'
+id: CRUD-Q008
+title: Match subdocuments inside arrays
+topic: CRUD
+subtopic: Array queries – $elemMatch
+difficulty: easy
+type: single
+tags:
+- arrays
+- elemMatch
+- subdocuments
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Which of the following operators can be used to find a subdocument that matches specific criteria in an
+  array?
+
+  '
+context: 'You are querying an array field that contains embedded documents and need to ensure multiple conditions
+  apply to the same array element.
+
+  '
+artifacts:
+  sample_docs:
+  - _id: 1
+    scores:
+    - type: math
+      score: 85
+    - type: english
+      score: 92
+  snippets: []
+  notes:
+  - $elemMatch ensures that multiple conditions apply to the same array element.
+  - Without $elemMatch, conditions may match different elements in the array.
+choices:
+- key: A
+  text: '&element'
+- key: B
+  text: $elemMatch
+- key: C
+  text: $subMatch
+- key: D
+  text: $docMatch
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'Use $elemMatch when multiple conditions must match the same array element.
+
+    '
+  correct_why:
+  - $elemMatch is the official MongoDB operator for matching subdocuments in arrays.
+  - It guarantees all criteria are evaluated against a single array element.
+  - This operator is heavily tested in array-query exam questions.
+  wrong_why:
+    A: '&element is not a valid MongoDB operator.'
+    C: $subMatch does not exist in MongoDB.
+    D: $docMatch is not a valid MongoDB query operator.
+  trap: 'Forgetting $elemMatch and unintentionally matching conditions across different elements of the same array.
+
+    '
+  mini_demo: "db.students.find({\n  scores: {\n    $elemMatch: { type: \"math\", score: { $gt: 80 } }\n  }\n})\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

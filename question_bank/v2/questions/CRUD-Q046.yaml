@@ -1,0 +1,89 @@
+schema_version: '2.0'
+id: CRUD-Q046
+title: Delete multiple documents using delete_many
+topic: CRUD
+subtopic: delete_many
+difficulty: easy
+type: single
+tags:
+- delete_many
+- pymongo
+- bulk_delete
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Use the dataset below to answer the question that follows. When you run the given command, what is the
+  result? (Select one.)
+
+  '
+context: "# Dataset in the accounts collection\n\n{\n  \"account_id\": \"MDB156014571\",\n  \"account_holder\":\
+  \ \"Adelen Værnes\",\n  \"account_type\": \"savings\",\n  \"balance\": 1519.62,\n  \"transfers_complete\": [\n\
+  \    \"TR670287839\",\n    \"TR679752211\",\n    \"TR854525844\",\n    \"TR762109284\"\n  ]\n}\n\n{\n  \"account_id\"\
+  : \"MDB190468049\",\n  \"account_holder\": \"Louis Lewis\",\n  \"account_type\": \"savings\",\n  \"balance\":\
+  \ 4155.67,\n  \"transfers_complete\": [\n    \"TR859060098\",\n    \"TR729044189\",\n    \"TR126484922\",\n  \
+  \  \"TR617907396\",\n    \"TR598541455\"\n  ]\n}\n\n{\n  \"account_id\": \"MDB870205338\",\n  \"account_holder\"\
+  : \"Juan Perez\",\n  \"account_type\": \"checking\",\n  \"balance\": 1907.8,\n  \"transfers_complete\": [\n  \
+  \  \"TR432759196\",\n    \"TR797654953\",\n    \"TR391563093\",\n    \"TR464853424\",\n    \"TR922604241\"\n \
+  \ ]\n}\n\n# Command executed\nfilter = { \"account_type\": \"checking\" }\nresult = db.accounts.delete_many(filter)\n"
+artifacts:
+  sample_docs:
+  - account_id: MDB156014571
+    account_holder: Adelen Værnes
+    account_type: savings
+  - account_id: MDB190468049
+    account_holder: Louis Lewis
+    account_type: savings
+  - account_id: MDB870205338
+    account_holder: Juan Perez
+    account_type: checking
+  notes:
+  - delete_many() removes entire documents, not individual fields.
+  - The filter matches documents where account_type is 'checking'.
+choices:
+- key: A
+  text: Louis Lewis and Adelen Værnes are the only two documents left in the collection.
+- key: B
+  text: Juan Perez is the only document left in the collection.
+- key: C
+  text: No changes happen to the collection.
+- key: D
+  text: The account_type field is removed from all documents.
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'delete_many() deletes all documents that match the given filter.
+
+    '
+  correct_why:
+  - Only Juan Perez has account_type set to 'checking'.
+  - That document matches the filter and is deleted.
+  - The two savings accounts remain in the collection.
+  wrong_why:
+    B: Juan Perez is deleted, so he cannot be the only document remaining.
+    C: A matching document exists, so the collection is modified.
+    D: Field removal requires $unset, not delete_many().
+  trap: 'A common exam trap is confusing document deletion (delete_many) with field deletion using $unset.
+
+    '
+  mini_demo: 'from pymongo import MongoClient
+
+
+    client = MongoClient("mongodb://localhost:27017")
+
+    db = client.sample_training
+
+    accounts = db.accounts
+
+
+    filter_query = {"account_type": "checking"}
+
+    result = accounts.delete_many(filter_query)
+
+
+    print("Documents deleted:", result.deleted_count)
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-15'

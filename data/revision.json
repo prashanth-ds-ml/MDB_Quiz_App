@@ -1,0 +1,128 @@
+{
+  "items": {
+    "BSON-Q001": {
+      "qid": "BSON-Q001",
+      "added_at": "2025-12-14T07:48:50",
+      "last_seen": "2025-12-14T07:48:50",
+      "times_seen": 1,
+      "times_wrong": 1,
+      "times_correct": 0,
+      "last_selected": [
+        "A"
+      ],
+      "source": "practice"
+    },
+    "BSON-Q002": {
+      "qid": "BSON-Q002",
+      "added_at": "2025-12-14T12:29:01",
+      "last_seen": "2025-12-14T12:29:01",
+      "times_seen": 1,
+      "times_wrong": 1,
+      "times_correct": 0,
+      "last_selected": [
+        "A"
+      ],
+      "source": "practice"
+    },
+    "SHELL-Q001": {
+      "qid": "SHELL-Q001",
+      "added_at": "2025-12-14T12:29:59",
+      "last_seen": "2025-12-14T12:29:59",
+      "times_seen": 1,
+      "times_wrong": 1,
+      "times_correct": 0,
+      "last_selected": [
+        "A"
+      ],
+      "source": "practice"
+    },
+    "CRUD-Q024": {
+      "qid": "CRUD-Q024",
+      "added_at": "2025-12-14T12:30:43",
+      "last_seen": "2025-12-14T12:30:43",
+      "times_seen": 1,
+      "times_wrong": 1,
+      "times_correct": 0,
+      "last_selected": [
+        "A"
+      ],
+      "source": "practice"
+    },
+    "CRUD-Q019": {
+      "qid": "CRUD-Q019",
+      "added_at": "2025-12-14T12:31:01",
+      "last_seen": "2025-12-14T12:31:01",
+      "times_seen": 1,
+      "times_wrong": 1,
+      "times_correct": 0,
+      "last_selected": [
+        "A"
+      ],
+      "source": "practice"
+    },
+    "DRIVER-Q002": {
+      "qid": "DRIVER-Q002",
+      "added_at": "2025-12-14T12:32:34",
+      "last_seen": "2025-12-14T12:32:34",
+      "times_seen": 1,
+      "times_wrong": 1,
+      "times_correct": 0,
+      "last_selected": [
+        "D"
+      ],
+      "source": "practice"
+    },
+    "CRUD-Q021": {
+      "qid": "CRUD-Q021",
+      "added_at": "2025-12-14T14:40:22",
+      "last_seen": "2025-12-14T14:40:22",
+      "times_seen": 1,
+      "times_wrong": 1,
+      "times_correct": 0,
+      "last_selected": [
+        "B"
+      ],
+      "source": "mock"
+    },
+    "CRUD-Q018": {
+      "qid": "CRUD-Q018",
+      "added_at": "2025-12-14T14:40:22",
+      "last_seen": "2025-12-14T14:40:22",
+      "times_seen": 1,
+      "times_wrong": 1,
+      "times_correct": 0,
+      "last_selected": [],
+      "source": "mock"
+    },
+    "CRUD-Q008": {
+      "qid": "CRUD-Q008",
+      "added_at": "2025-12-14T14:40:22",
+      "last_seen": "2025-12-14T14:40:22",
+      "times_seen": 1,
+      "times_wrong": 1,
+      "times_correct": 0,
+      "last_selected": [],
+      "source": "mock"
+    },
+    "CRUD-Q016": {
+      "qid": "CRUD-Q016",
+      "added_at": "2025-12-14T14:40:22",
+      "last_seen": "2025-12-14T14:40:22",
+      "times_seen": 1,
+      "times_wrong": 1,
+      "times_correct": 0,
+      "last_selected": [],
+      "source": "mock"
+    },
+    "CRUD-Q005": {
+      "qid": "CRUD-Q005",
+      "added_at": "2025-12-14T14:40:22",
+      "last_seen": "2025-12-14T14:40:22",
+      "times_seen": 1,
+      "times_wrong": 1,
+      "times_correct": 0,
+      "last_selected": [],
+      "source": "mock"
+    }
+  }
+}

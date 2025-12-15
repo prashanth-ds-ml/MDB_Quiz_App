@@ -1,0 +1,77 @@
+schema_version: '2.0'
+id: CRUD-Q021
+title: updateOne() without update operators
+topic: CRUD
+subtopic: updateOne() replacement behavior
+difficulty: easy
+type: single
+tags:
+- updateOne
+- replacement
+- exam-trap
+- update-operators
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Given a document `{ a: 1, b: 2, c: 3 }`, what is the result after running the following command?
+
+  db.collection.updateOne({ a: 1 }, { b: 5 })
+
+  '
+context: 'The update command is executed without using any update operators such as `$set`.
+
+  '
+artifacts:
+  sample_docs:
+  - a: 1
+    b: 2
+    c: 3
+  snippets: []
+  notes:
+  - An update document without operators is treated as a replacement.
+  - '`_id` is preserved automatically during replacement.'
+choices:
+- key: A
+  text: 'Document now has fields { b: 5 }'
+- key: B
+  text: 'Document now has { a: 1, b: 5, c: 3 }'
+- key: C
+  text: Operation error
+- key: D
+  text: Only field b is updated, others become null
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'updateOne() without update operators performs a full document replacement.
+
+    '
+  correct_why:
+  - 'The update document `{ b: 5 }` is treated as a replacement document.'
+  - All existing fields except `_id` are removed.
+  - 'The resulting document contains only `{ b: 5 }` (plus `_id`).'
+  wrong_why:
+    B: Keeping other fields requires update operators like `$set`.
+    C: MongoDB allows replacement-style updates without error.
+    D: Omitted fields are removed, not set to null.
+  trap: 'Assuming updateOne() performs partial updates even without `$set`.
+
+    '
+  mini_demo: '// Original
+
+    { _id: 1, a: 1, b: 2, c: 3 }
+
+
+    // updateOne without operators
+
+    db.collection.updateOne({ a: 1 }, { b: 5 })
+
+
+    // Result
+
+    { _id: 1, b: 5 }
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-13'

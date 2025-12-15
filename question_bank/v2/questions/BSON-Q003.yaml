@@ -1,0 +1,64 @@
+schema_version: '2.0'
+id: BSON-Q003
+title: Type for storing nested objects
+topic: MongoDB Overview
+subtopic: BSON data types – embedded documents
+difficulty: easy
+type: single
+tags:
+- bson
+- embedded-document
+- schema-design
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'What type should be used to store a nested object within a document?
+
+  '
+context: 'You are designing a MongoDB document that contains structured data grouped logically under a single field
+  (for example, an address or profile).
+
+  '
+artifacts:
+  sample_docs:
+  - name: Alice
+    address:
+      city: Hyderabad
+      pincode: '500001'
+  snippets: []
+  notes:
+  - MongoDB documents can contain other documents.
+  - This pattern is called embedding and is core to MongoDB’s data model.
+choices:
+- key: A
+  text: Array
+- key: B
+  text: Embedded Document
+- key: C
+  text: String
+- key: D
+  text: Binary
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'Use an embedded document to store structured, nested data.
+
+    '
+  correct_why:
+  - Embedded documents allow related fields to be grouped together.
+  - They preserve structure and enable dot-notation queries.
+  - This is the recommended approach for nested objects in MongoDB.
+  wrong_why:
+    A: Arrays are used for lists of values, not structured key–value objects.
+    C: Strings cannot represent structured nested data.
+    D: Binary is used for raw binary data, not documents.
+  trap: 'Confusing arrays of values with embedded documents that store structured objects.
+
+    '
+  mini_demo: "db.users.insertOne({\n  name: \"Bob\",\n  profile: {\n    age: 30,\n    occupation: \"Engineer\"\n\
+    \  }\n})\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

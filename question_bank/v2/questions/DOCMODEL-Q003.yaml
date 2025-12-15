@@ -1,0 +1,60 @@
+schema_version: '2.0'
+id: DOCMODEL-Q003
+title: Enforcing document structure in MongoDB
+topic: MongoDB Overview
+subtopic: Schema validation
+difficulty: easy
+type: single
+tags:
+- schema-validation
+- json-schema
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'How can MongoDB enforce uniform document structure if needed?
+
+  '
+context: 'While MongoDB is schema-flexible by default, some applications require stricter control over document
+  structure and field types.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - MongoDB supports optional schema enforcement.
+  - Schema validation is applied at the collection level.
+choices:
+- key: A
+  text: By installing plugins
+- key: B
+  text: By using JSON Schema Validation
+- key: C
+  text: By default, all collections are uniform
+- key: D
+  text: By converting collections into relational tables
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'MongoDB enforces structure using JSON Schema validation when required.
+
+    '
+  correct_why:
+  - MongoDB supports JSON Schema–based validation at the collection level.
+  - This allows enforcing required fields, data types, and value constraints.
+  - Validation rules are checked on insert and update operations.
+  wrong_why:
+    A: No plugins are required to enforce schema rules in MongoDB.
+    C: Collections are schema-flexible by default, not uniform.
+    D: MongoDB does not convert collections into relational tables.
+  trap: 'Assuming MongoDB cannot enforce schemas because it is schema-flexible.
+
+    '
+  mini_demo: "db.createCollection(\"users\", {\n  validator: {\n    $jsonSchema: {\n      bsonType: \"object\",\n\
+    \      required: [\"name\", \"email\"],\n      properties: {\n        name: { bsonType: \"string\" },\n    \
+    \    email: { bsonType: \"string\" }\n      }\n    }\n  }\n})\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

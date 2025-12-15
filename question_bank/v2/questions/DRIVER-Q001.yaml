@@ -1,0 +1,62 @@
+schema_version: '2.0'
+id: DRIVER-Q001
+title: Duplicate key exception in PyMongo
+topic: Drivers
+subtopic: PyMongo error handling
+difficulty: easy
+type: single
+tags:
+- pymongo
+- exceptions
+- duplicate-key
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Which of the following exceptions is raised in PyMongo when you attempt to insert a document that violates
+  a unique index (duplicate key)?
+
+  '
+context: 'You are inserting documents into a MongoDB collection using PyMongo where a unique index is defined on
+  a field.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - PyMongo raises specific exceptions for different write failures.
+  - Duplicate key errors are common when enforcing uniqueness.
+choices:
+- key: A
+  text: WriteError
+- key: B
+  text: DuplicateKeyError
+- key: C
+  text: OperationFailure
+- key: D
+  text: BulkWriteError
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'Duplicate key violations in PyMongo raise DuplicateKeyError.
+
+    '
+  correct_why:
+  - DuplicateKeyError is raised when a unique index constraint is violated.
+  - It is a subclass of WriteError in PyMongo.
+  - This exception is explicitly documented and commonly tested.
+  wrong_why:
+    A: WriteError is a base class, but PyMongo raises DuplicateKeyError specifically.
+    C: OperationFailure is used for command-level failures, not duplicate inserts.
+    D: BulkWriteError occurs during bulk write operations, not single inserts.
+  trap: 'Choosing WriteError because it sounds generic, instead of the specific exception.
+
+    '
+  mini_demo: "from pymongo import MongoClient\nfrom pymongo.errors import DuplicateKeyError\n\ntry:\n    db.users.insert_one({\
+    \ \"_id\": 1, \"name\": \"Alice\" })\n    db.users.insert_one({ \"_id\": 1, \"name\": \"Bob\" })\nexcept DuplicateKeyError:\n\
+    \    print(\"Duplicate key detected\")\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

@@ -1,0 +1,59 @@
+schema_version: '2.0'
+id: BSON-Q001
+title: BSON type for precise monetary values
+topic: MongoDB Overview
+subtopic: BSON data types
+difficulty: easy
+type: single
+tags:
+- bson
+- decimal128
+- money
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Which BSON type is best for storing precise monetary values?
+
+  '
+context: 'You are designing a schema that stores currency amounts where rounding errors must be avoided (for example,
+  prices, balances, or financial data).
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - Floating-point types can introduce rounding errors.
+  - MongoDB provides a high-precision decimal type specifically for financial data.
+choices:
+- key: A
+  text: Double
+- key: B
+  text: Decimal128
+- key: C
+  text: String
+- key: D
+  text: Int32
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'Use Decimal128 for exact precision when storing monetary values.
+
+    '
+  correct_why:
+  - Decimal128 stores decimal floating-point values with high precision.
+  - It avoids rounding errors common with binary floating-point types like Double.
+  - MongoDB explicitly recommends Decimal128 for financial calculations.
+  wrong_why:
+    A: Double is a binary floating-point type and can introduce rounding errors.
+    C: String cannot be used for numeric calculations without conversion.
+    D: Int32 cannot represent fractional monetary values.
+  trap: 'Using Double for money, which can silently introduce precision errors.
+
+    '
+  mini_demo: "db.payments.insertOne({\n  amount: NumberDecimal(\"199.99\"),\n  currency: \"USD\"\n})\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

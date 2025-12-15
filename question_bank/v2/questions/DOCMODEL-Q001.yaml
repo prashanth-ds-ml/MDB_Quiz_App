@@ -1,0 +1,64 @@
+schema_version: '2.0'
+id: DOCMODEL-Q001
+title: Different document shapes in the same collection
+topic: MongoDB Overview
+subtopic: Document model & schema flexibility
+difficulty: easy
+type: single
+tags:
+- document-model
+- schema-flexibility
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Can MongoDB store documents of totally different shapes within the same collection?
+
+  '
+context: 'You are evaluating MongoDB’s schema flexibility compared to traditional relational databases.
+
+  '
+artifacts:
+  sample_docs:
+  - _id: 1
+    name: Alice
+    age: 30
+  - _id: 2
+    product: Laptop
+    price: 75000
+    in_stock: true
+  snippets: []
+  notes:
+  - MongoDB uses a flexible schema model.
+  - Documents in the same collection do not need to share the same fields.
+choices:
+- key: A
+  text: 'Yes'
+- key: B
+  text: 'No'
+- key: C
+  text: Only if all fields are optional
+- key: D
+  text: Only when using MongoDB Atlas
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'MongoDB collections can contain documents with different structures.
+
+    '
+  correct_why:
+  - MongoDB is schema-flexible and does not enforce a fixed structure.
+  - Each document can have different fields and data types.
+  - This is a core feature of the MongoDB document model.
+  wrong_why:
+    B: MongoDB does not require all documents to have the same shape.
+    C: Field optionality is not required for schema flexibility.
+    D: This behavior is inherent to MongoDB, not specific to Atlas.
+  trap: 'Assuming MongoDB enforces a rigid schema like relational databases.
+
+    '
+  mini_demo: "db.test.insertMany([\n  { name: \"Alice\", age: 30 },\n  { product: \"Phone\", price: 30000 }\n])\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

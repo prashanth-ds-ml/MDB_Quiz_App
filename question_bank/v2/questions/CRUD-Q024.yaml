@@ -1,0 +1,61 @@
+schema_version: '2.0'
+id: CRUD-Q024
+title: Using $set on a non-existing field
+topic: CRUD
+subtopic: update operators – $set
+difficulty: easy
+type: single
+tags:
+- update
+- $set
+- field-creation
+- exam-core
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'What happens if you try to update a field using `$set` that did not previously exist in the document?
+
+  '
+context: 'You are updating documents and want to understand how MongoDB handles new fields during update operations.
+
+  '
+artifacts:
+  sample_docs:
+  - name: Laptop
+    price: 50000
+  snippets: []
+  notes:
+  - $set is used for both updating existing fields and creating new fields.
+  - MongoDB updates are schema-flexible unless validation is enabled.
+choices:
+- key: A
+  text: MongoDB throws an error
+- key: B
+  text: MongoDB creates the new field with the given value
+- key: C
+  text: MongoDB ignores the new field
+- key: D
+  text: The entire document is replaced
+answer:
+  keys:
+  - B
+rationale:
+  rule: '$set creates the field if it does not already exist.
+
+    '
+  correct_why:
+  - $set adds new fields when they are not present.
+  - This behavior supports MongoDB’s flexible schema model.
+  - No error is thrown for new fields by default.
+  wrong_why:
+    A: MongoDB allows adding new fields unless schema validation blocks it.
+    C: MongoDB never silently ignores a valid $set update.
+    D: Replacement occurs only when no update operators are used.
+  trap: 'Assuming $set only works on fields that already exist.
+
+    '
+  mini_demo: "db.products.updateOne(\n  { name: \"Laptop\" },\n  { $set: { warranty_years: 2 } }\n)\n\n// Result:\n\
+    // { name: \"Laptop\", price: 50000, warranty_years: 2 }\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

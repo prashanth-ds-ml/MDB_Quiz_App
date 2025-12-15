@@ -1,0 +1,59 @@
+schema_version: '2.0'
+id: CRUD-Q020
+title: Updating specific fields without removing others
+topic: CRUD
+subtopic: updateOne() with update operators
+difficulty: easy
+type: single
+tags:
+- updateOne
+- $set
+- update-vs-replace
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Which update command would you use to modify only certain fields in a document without removing the other
+  existing fields?
+
+  '
+context: 'You want to safely update part of a document while preserving all other fields.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - Update operators modify specific fields.
+  - Replacement updates overwrite the entire document.
+choices:
+- key: A
+  text: replaceOne() with partial document
+- key: B
+  text: updateOne() with $set operator
+- key: C
+  text: updateOne() with full document replacement
+- key: D
+  text: updateMany() without update operators
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'Use update operators like $set to change specific fields safely.
+
+    '
+  correct_why:
+  - $set updates only the specified fields.
+  - All other fields in the document remain unchanged.
+  - This is the recommended and safest way to perform partial updates.
+  wrong_why:
+    A: replaceOne() replaces the entire document, removing omitted fields.
+    C: Full document replacement overwrites all existing fields.
+    D: Updates without operators trigger full document replacement.
+  trap: 'Thinking that providing a partial document automatically performs a partial update.
+
+    '
+  mini_demo: "db.users.updateOne(\n  { _id: 1 },\n  { $set: { email: \"new@mail.com\" } }\n)\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

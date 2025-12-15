@@ -1,0 +1,91 @@
+schema_version: '2.0'
+id: CRUD-Q043
+title: Find multiple documents using find()
+topic: CRUD
+subtopic: find
+difficulty: easy
+type: single
+tags:
+- find
+- pymongo
+- cursor
+- multiple_documents
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'You need to find all zip codes for the city of Tulsa, Oklahoma. Which query should you use, given the following?
+  (Select one.)
+
+  '
+context: '# Get reference to ''sample_training'' database
+
+  db = client.sample_training
+
+
+  # Get a reference to the ''zips'' collection
+
+  zips_collection = db.zips
+
+
+  # Query
+
+  tulsa_documents = { "city": "TULSA" }
+
+
+  # Select an expression that selects the documents matching
+
+  # the query constraint in the ''zips'' collection.
+
+  cursor =
+
+  '
+artifacts:
+  sample_docs:
+  - zip: '74103'
+    city: TULSA
+    state: OK
+  - zip: '74104'
+    city: TULSA
+    state: OK
+  snippets: []
+  notes:
+  - find() returns a cursor for multiple matches.
+  - find_one() returns only one document.
+choices:
+- key: A
+  text: 'cursor = zips_collection.find(tulsa_documents)
+
+    '
+- key: B
+  text: 'cursor = zips_collection.find_one(tulsa_documents)
+
+    '
+- key: C
+  text: 'cursor = zips_collection.find_one("city": "TULSA")
+
+    '
+- key: D
+  text: 'cursor = zips_collection.find("city": "TULSA")
+
+    '
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'Use find(filter_document) to return all matching documents as a cursor.
+
+    '
+  correct_why:
+  - find() returns all matches via a cursor.
+  - Reuses the provided filter document tulsa_documents.
+  wrong_why:
+    B: find_one() returns only one matching document.
+    C: 'Invalid syntax: filter must be a dict like {''city'': ''TULSA''}.'
+    D: 'Invalid usage: find() expects a dict filter, not key-value arguments.'
+  trap: 'Another common trap: using find_one() when the requirement says “all”.
+
+    '
+  mini_demo: "cursor = zips_collection.find({\"city\": \"TULSA\"})\nfor doc in cursor:\n    print(doc[\"zip\"])\n"
+status: published
+author: prashanth
+updated_at: '2025-12-15'

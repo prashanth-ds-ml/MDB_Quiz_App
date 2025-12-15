@@ -1,0 +1,59 @@
+schema_version: '2.0'
+id: ERROR-Q002
+title: MongoDB error code 121
+topic: MongoDB Overview
+subtopic: Error codes & validation
+difficulty: easy
+type: single
+tags:
+- error-codes
+- schema-validation
+- exam-core
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'What does MongoDB error code 121 indicate?
+
+  '
+context: 'You are inserting or updating a document in a collection that has schema validation rules enabled.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - MongoDB assigns specific numeric codes to common error conditions.
+  - Error code 121 is strongly associated with schema validation.
+choices:
+- key: A
+  text: Duplicate key
+- key: B
+  text: Validation failure
+- key: C
+  text: No such collection
+- key: D
+  text: Connection timeout
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'Error code 121 means the document failed schema validation.
+
+    '
+  correct_why:
+  - Error code 121 corresponds to `DocumentValidationFailure`.
+  - It occurs when a document violates JSON Schema validation rules.
+  - This commonly happens on insert or update operations.
+  wrong_why:
+    A: Duplicate key errors use code 11000.
+    C: Missing collections raise different command or namespace errors.
+    D: Connection timeouts are network-level errors, not validation errors.
+  trap: 'Confusing validation errors (121) with duplicate key errors (11000).
+
+    '
+  mini_demo: "db.createCollection(\"users\", {\n  validator: {\n    $jsonSchema: {\n      bsonType: \"object\",\n\
+    \      required: [\"email\"],\n      properties: {\n        email: { bsonType: \"string\" }\n      }\n    }\n\
+    \  }\n})\n\n// This insert triggers error code 121\ndb.users.insertOne({ name: \"Alice\" })\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

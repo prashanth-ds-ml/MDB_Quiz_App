@@ -1,0 +1,70 @@
+schema_version: '2.0'
+id: CRUD-Q012
+title: Understanding replaceOne() behavior
+topic: CRUD
+subtopic: replaceOne()
+difficulty: easy
+type: multi
+tags:
+- update
+- replaceOne
+- mongosh
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Which of the following statements regarding the `replaceOne()` method for the MongoDB Shell (`mongosh`)
+  are true?
+
+  '
+context: 'You are updating documents using replacement semantics instead of update operators.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - '`replaceOne()` completely replaces the matched document except for `_id`.'
+  - It does NOT use update operators like `$set`.
+  - Only one document can be replaced per operation.
+choices:
+- key: A
+  text: 'This method is used to replace a single document that matches the filter document.
+
+    '
+- key: B
+  text: 'This method accepts a filter document, a replacement document, and an optional options document.
+
+    '
+- key: C
+  text: 'This method can replace multiple documents in a collection.
+
+    '
+- key: D
+  text: 'This method returns a document containing an acknowledgement of the operation, a matched count, modified
+    count, and an upserted ID (if applicable).
+
+    '
+answer:
+  keys:
+  - A
+  - B
+  - D
+rationale:
+  rule: 'replaceOne() replaces exactly one document and returns an operation result object.
+
+    '
+  correct_why:
+  - replaceOne() targets only a single matching document.
+  - Its signature is replaceOne(filter, replacement, options).
+  - The result includes acknowledged, matchedCount, modifiedCount, and upsertedId.
+  wrong_why:
+    C: replaceOne() cannot replace multiple documents; updateMany() or bulk operations are required.
+  trap: 'Confusing replaceOne() with updateMany() or assuming it behaves like update operators.
+
+    '
+  mini_demo: "db.users.replaceOne(\n  { username: \"alice\" },\n  { username: \"alice\", age: 31 },\n  { upsert:\
+    \ false }\n)\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

@@ -1,0 +1,73 @@
+schema_version: '2.0'
+id: CRUD-Q039
+title: 'PyMongo: Do you need to convert dict → BSON manually?'
+topic: CRUD
+subtopic: PyMongo inserts
+difficulty: easy
+type: single
+tags:
+- pymongo
+- bson
+- insertOne
+- serialization
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'You want to insert data stored in a Python dictionary as a new document using PyMongo. What do you need
+  to do to convert a Python dictionary to BSON? (Select one.)
+
+  '
+context: 'PyMongo handles BSON serialization internally when inserting documents.
+
+  '
+artifacts:
+  sample_docs:
+  - name: Alice
+    age: 30
+  snippets: []
+  notes:
+  - PyMongo serializes dict → BSON automatically.
+  - '`_id` is auto-generated if missing.'
+choices:
+- key: A
+  text: Nothing — PyMongo automatically converts a Python dictionary to BSON during insert.
+- key: B
+  text: Use an independent library to convert the dictionary to BSON before inserting.
+- key: C
+  text: Manually add an `_id` ObjectId so the dictionary can be converted to BSON.
+- key: D
+  text: Manually call BSON encoder (e.g., encode()) before insert_one() will accept the document.
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'PyMongo automatically serializes Python dicts to BSON for write operations.
+
+    '
+  correct_why:
+  - PyMongo performs serialization for you on insert/update.
+  - You can pass a dict directly into insert_one().
+  wrong_why:
+    B: No extra library is required for normal PyMongo inserts.
+    C: '`_id` is optional; MongoDB/PyMongo generates it automatically.'
+    D: Manual BSON encoding is not required for insert_one().
+  trap: 'Confusing PyMongo’s internal BSON handling with manual BSON encoding APIs.
+
+    '
+  mini_demo: 'from pymongo import MongoClient
+
+    client = MongoClient()
+
+    col = client.test.users
+
+
+    doc = {"name": "Alice", "age": 30}   # plain dict
+
+    res = col.insert_one(doc)
+
+    print(res.inserted_id)
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-15'

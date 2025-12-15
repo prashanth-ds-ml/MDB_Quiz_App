@@ -1,0 +1,96 @@
+schema_version: '2.0'
+id: CRUD-Q034
+title: Rules of projection documents
+topic: CRUD
+subtopic: find() projection
+difficulty: easy
+type: multi
+tags:
+- projection
+- find
+- _id
+- exam-fundamentals
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Which of the following statements are true about a projection document? (Select all that apply.)
+
+  '
+context: 'You are querying documents using the find() method and want to control which fields are returned in the
+  result set.
+
+  '
+artifacts:
+  sample_docs:
+  - _id: 1
+    name: Alice
+    age: 30
+    email: alice@example.com
+  notes:
+  - Projection controls which fields are returned by a query.
+  - '`_id` is included by default unless explicitly excluded.'
+choices:
+- key: A
+  text: 'We can include fields in our results by setting their values to 1 in the projection document.
+
+    '
+- key: B
+  text: 'We can exclude fields from our results by setting their values to 0 in the projection document.
+
+    '
+- key: C
+  text: 'We can either include or exclude fields in the results, but not both. The `_id` field is the exception
+    to this rule.
+
+    '
+- key: D
+  text: 'Inclusion and exclusion statements, not including `_id` statements, can be combined with each other in
+    a projection document.
+
+    '
+answer:
+  keys:
+  - A
+  - B
+  - C
+rationale:
+  rule: 'A projection document may either include fields or exclude fields, but not both at the same time, except
+    for the `_id` field.
+
+    '
+  correct_why:
+  - Setting a field to 1 includes it in the result.
+  - Setting a field to 0 excludes it from the result.
+  - MongoDB does not allow mixing inclusion and exclusion, except for `_id`.
+  wrong_why:
+    D: 'MongoDB does not allow inclusion and exclusion statements to be mixed in the same projection document. The
+      only exception is the `_id` field.
+
+      '
+  trap: 'Many assume that inclusion and exclusion can be mixed freely, which is false. `_id` is the only field that
+    can be excluded alongside inclusion projections.
+
+    '
+  mini_demo: '// Valid inclusion
+
+    db.users.find({}, { name: 1, age: 1 })
+
+
+    // Valid exclusion
+
+    db.users.find({}, { email: 0 })
+
+
+    // Valid: _id excluded with inclusion
+
+    db.users.find({}, { name: 1, _id: 0 })
+
+
+    // Invalid: mixing inclusion and exclusion
+
+    // db.users.find({}, { name: 1, age: 0 })
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-13'

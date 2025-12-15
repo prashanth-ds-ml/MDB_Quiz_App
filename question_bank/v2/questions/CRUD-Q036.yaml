@@ -1,0 +1,79 @@
+schema_version: '2.0'
+id: CRUD-Q036
+title: 'countDocuments(): what is true?'
+topic: CRUD
+subtopic: countDocuments()
+difficulty: easy
+type: multi
+tags:
+- countDocuments
+- count
+- pymongo
+- mongosh
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Which of the following statements are true about the countDocuments() collection method? (Select all that
+  apply.)
+
+  '
+context: 'You want to count documents in a collection using filters and query operators.
+
+  '
+artifacts:
+  sample_docs:
+  - _id: 1
+    status: active
+    age: 25
+  - _id: 2
+    status: inactive
+    age: 17
+  snippets: []
+  notes:
+  - countDocuments(filter) returns an exact count.
+  - An empty filter {} counts all documents.
+choices:
+- key: A
+  text: The method takes a query (filter) parameter, which selects the documents to be counted.
+- key: B
+  text: We can use the method to count all documents in a collection.
+- key: C
+  text: The method does not support the use of operators in queries that are passed as a parameter.
+- key: D
+  text: The method returns the matching documents (a cursor), and you count them by iterating.
+answer:
+  keys:
+  - A
+  - B
+rationale:
+  rule: 'countDocuments(filter) counts matching documents; operators like $gte/$in are supported; {} counts all.
+
+    '
+  correct_why:
+  - 'A is true: the filter decides what gets counted.'
+  - 'B is true: using {} counts every document in the collection.'
+  wrong_why:
+    C: 'False: query operators are supported in countDocuments() filters.'
+    D: 'False: countDocuments() returns a number, not a cursor.'
+  trap: 'Confusing countDocuments() with find() (cursor) or thinking operators don''t work in counts.
+
+    '
+  mini_demo: '# PyMongo
+
+    from pymongo import MongoClient
+
+    client = MongoClient()
+
+    col = client.test.users
+
+
+    total = col.count_documents({})
+
+    adults = col.count_documents({"age": {"$gte": 18}})
+
+    print(total, adults)
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-15'

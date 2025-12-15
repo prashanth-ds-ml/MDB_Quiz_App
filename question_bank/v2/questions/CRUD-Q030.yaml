@@ -1,0 +1,64 @@
+schema_version: '2.0'
+id: CRUD-Q030
+title: Delete a specific route using deleteOne()
+topic: CRUD
+subtopic: deleteOne()
+difficulty: medium
+type: single
+tags:
+- deleteOne
+- routes
+- filters
+- exam-trap
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'United Airlines is the only airline that has a route from the Denver Airport (DEN) to the Northwest Arkansas
+  Airport (XNA). It has decided to cancel this route due to low ridership. Which of the following queries will delete
+  the route? (Select one.)
+
+  '
+context: 'The documents are stored in the `routes` collection of the `sample_training` database.
+
+  '
+artifacts:
+  sample_docs:
+  - _id: ObjectId('5f6a...')
+    airline:
+      name: United Airlines
+    src_airport: DEN
+    dst_airport: XNA
+    stops: 0
+  notes:
+  - deleteOne() removes a single matched document.
+  - Route identity is determined by src_airport and dst_airport.
+choices:
+- key: A
+  text: 'db.routes.deleteOne({ "airline.name": "United Airlines" })'
+- key: B
+  text: 'db.routes.delete({ "airline.name": "United Airlines" })'
+- key: C
+  text: 'db.routes.delete({ src_airport: "DEN", dst_airport: "XNA" })'
+- key: D
+  text: 'db.routes.deleteOne({ src_airport: "DEN", dst_airport: "XNA" })'
+answer:
+  keys:
+  - D
+rationale:
+  rule: 'Use deleteOne() with a precise filter to remove a single, specific document.
+
+    '
+  correct_why:
+  - Filters exactly match the DEN → XNA route.
+  - deleteOne() ensures only one document is removed.
+  - Avoids deleting unrelated United Airlines routes.
+  wrong_why:
+    A: Matches airline only, not a specific route.
+    B: '`delete()` is not a valid MongoDB method.'
+    C: '`delete()` is not a valid MongoDB method.'
+  trap: 'Deleting by airline name instead of route identifiers.
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-13'

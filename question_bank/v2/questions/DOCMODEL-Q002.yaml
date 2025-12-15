@@ -1,0 +1,58 @@
+schema_version: '2.0'
+id: DOCMODEL-Q002
+title: Benefit of schema flexibility
+topic: MongoDB Overview
+subtopic: Schema flexibility
+difficulty: easy
+type: single
+tags:
+- schema-flexibility
+- polymorphic-data
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'What is the main benefit of MongoDB’s schema flexibility?
+
+  '
+context: 'You are comparing MongoDB’s document model with traditional relational databases during application design.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - Schema flexibility allows documents with different shapes.
+  - This reduces friction during iterative development.
+choices:
+- key: A
+  text: Requires schema migrations for every change
+- key: B
+  text: Supports polymorphic data and quicker development
+- key: C
+  text: Enforces strict data types
+- key: D
+  text: Requires all documents to follow the same structure
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'Schema flexibility enables polymorphic documents and faster iteration.
+
+    '
+  correct_why:
+  - Different document shapes can coexist in the same collection.
+  - Developers can evolve the data model without costly migrations.
+  - This speeds up development and supports agile workflows.
+  wrong_why:
+    A: MongoDB does not require schema migrations for every change.
+    C: MongoDB does not enforce strict schemas by default.
+    D: Collections do not require uniform document structures.
+  trap: 'Confusing MongoDB’s flexible schema with rigid relational schemas.
+
+    '
+  mini_demo: "db.items.insertMany([\n  { type: \"book\", title: \"MongoDB Basics\", pages: 200 },\n  { type: \"\
+    video\", title: \"MongoDB Intro\", duration_min: 45 }\n])\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

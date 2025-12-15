@@ -1,0 +1,92 @@
+schema_version: '2.0'
+id: CRUD-Q044
+title: Update a single document using update_one()
+topic: CRUD
+subtopic: update
+difficulty: easy
+type: single
+tags:
+- update_one
+- set
+- pymongo
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Zvents recently hired 15 new employees, bringing the total number of employees to 70. You need to update
+  the companies collection within the sample_training database, so the number_of_employees field is set to 70. Which
+  query should you use, given the following? (Select one.)
+
+  '
+context: '# Get reference to ''sample_training'' database
+
+  db = client.sample_training
+
+
+  # Get reference to ''companies'' collection
+
+  companies_collection = db.companies
+
+
+  # Filter
+
+  document_to_update = { "name": "Zvents" }
+
+
+  # Update
+
+  update_employees = { "$set": { "number_of_employees": 70 } }
+
+
+  # Select an expression that updates the number of employees.
+
+  '
+artifacts:
+  sample_docs:
+  - name: Zvents
+    number_of_employees: 55
+  snippets: []
+  notes:
+  - update_one(filter, update) updates the first matching document.
+  - Use $set to modify specific fields without replacing the entire document.
+choices:
+- key: A
+  text: 'result = db.companies.update_one({document_to_update, update_employees})
+
+    '
+- key: B
+  text: 'result = companies_collection.update_one({ document_to_update }, { update_employees })
+
+    '
+- key: C
+  text: 'result = companies_collection.update(document_to_update, update_employees)
+
+    '
+- key: D
+  text: 'result = companies_collection.update_one(document_to_update, update_employees)
+
+    '
+answer:
+  keys:
+  - D
+rationale:
+  rule: 'In PyMongo, update_one(filter, update) is the correct method to update a single document using an update
+    operator like $set.
+
+    '
+  correct_why:
+  - update_one() is the correct PyMongo method for updating one matching document.
+  - The filter (document_to_update) and update (update_employees) are passed as two separate arguments.
+  - $set updates only the specified field, preserving other fields.
+  wrong_why:
+    A: update_one() requires two separate arguments (filter, update); this combines them incorrectly.
+    B: The filter and update are incorrectly wrapped inside extra braces, changing the argument types.
+    C: update() is deprecated in PyMongo; use update_one() or update_many() instead.
+  trap: 'A common exam trap is adding extra braces around variables or using the deprecated update() method.
+
+    '
+  mini_demo: "from pymongo import MongoClient\n\nclient = MongoClient()\ndb = client.sample_training\ncompanies_collection\
+    \ = db.companies\n\nresult = companies_collection.update_one(\n    { \"name\": \"Zvents\" },\n    { \"$set\"\
+    : { \"number_of_employees\": 70 } }\n)\n\nprint(result.matched_count, result.modified_count)\n"
+status: published
+author: prashanth
+updated_at: '2025-12-15'

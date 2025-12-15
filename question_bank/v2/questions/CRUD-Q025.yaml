@@ -1,0 +1,64 @@
+schema_version: '2.0'
+id: CRUD-Q025
+title: Adding an element to an array field
+topic: CRUD
+subtopic: Array updates with $push
+difficulty: easy
+type: single
+tags:
+- arrays
+- $push
+- update-operators
+- exam-core
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'You want to add an element to the `items` array field in the `sales` collection. What should you include
+  in the update document?
+
+  '
+context: 'Each document in the `sales` collection contains an `items` array that stores purchased products as embedded
+  documents.
+
+  '
+artifacts:
+  sample_docs:
+  - _id: 1
+    items:
+    - name: phone
+      price: 500
+  snippets: []
+  notes:
+  - Use array update operators to modify array fields.
+  - $push appends a new element to an existing array.
+choices:
+- key: A
+  text: '{ $set: { items: [{ "name": "tablet", "price": 200 }] } }'
+- key: B
+  text: '{ $update: { items: [{ "name": "tablet", "price": 200 }] } }'
+- key: C
+  text: '{ $push: { items: { "name": "tablet", "price": 200 } } }'
+- key: D
+  text: '{ $upsert: { items: [{ "name": "tablet", "price": 200 }] } }'
+answer:
+  keys:
+  - C
+rationale:
+  rule: 'Use $push to add a new element to an array field.
+
+    '
+  correct_why:
+  - $push appends a single element to an existing array.
+  - It preserves existing array elements.
+  - This is the correct operator for adding items to arrays.
+  wrong_why:
+    A: $set replaces the entire array, removing existing elements.
+    B: $update is not a valid MongoDB update operator.
+    D: $upsert is an option, not an update operator for arrays.
+  trap: 'Using $set instead of $push, which accidentally overwrites the array.
+
+    '
+  mini_demo: "db.sales.updateOne(\n  { _id: 1 },\n  { $push: { items: { name: \"tablet\", price: 200 } } }\n)\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

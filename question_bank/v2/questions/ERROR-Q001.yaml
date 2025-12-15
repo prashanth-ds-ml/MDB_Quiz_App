@@ -1,0 +1,61 @@
+schema_version: '2.0'
+id: ERROR-Q001
+title: Ordering specific exceptions before general ones
+topic: Drivers
+subtopic: Error handling best practices
+difficulty: easy
+type: single
+tags:
+- exceptions
+- error-handling
+- best-practices
+- exam-core
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Why should you handle specific exceptions before general ones in error handling?
+
+  '
+context: 'You are writing robust application code (for example, using PyMongo) and want to respond appropriately
+  to different failure scenarios.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - Exception handling follows a top-down matching order.
+  - More specific exceptions carry more contextual information.
+choices:
+- key: A
+  text: For performance
+- key: B
+  text: For more precise and custom remediation
+- key: C
+  text: For code brevity
+- key: D
+  text: Because general exceptions are deprecated
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'Catch specific exceptions first to handle known failure cases accurately.
+
+    '
+  correct_why:
+  - Specific exceptions allow tailored recovery actions.
+  - They provide clearer context about what went wrong.
+  - Catching general exceptions first would mask specific error conditions.
+  wrong_why:
+    A: Exception ordering is about correctness, not performance.
+    C: Code brevity is not the goal of proper error handling.
+    D: General exceptions are not deprecated.
+  trap: 'Catching a broad exception first, which prevents specific handlers from ever executing.
+
+    '
+  mini_demo: "from pymongo.errors import DuplicateKeyError, PyMongoError\n\ntry:\n    db.users.insert_one({ \"_id\"\
+    : 1 })\n    db.users.insert_one({ \"_id\": 1 })\nexcept DuplicateKeyError:\n    print(\"Handle duplicate key\
+    \ specifically\")\nexcept PyMongoError:\n    print(\"Handle other MongoDB-related errors\")\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

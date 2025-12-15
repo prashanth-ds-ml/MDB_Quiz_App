@@ -1,0 +1,82 @@
+schema_version: '2.0'
+id: CRUD-Q037
+title: countDocuments() with empty filter
+topic: CRUD
+subtopic: countDocuments
+difficulty: easy
+type: single
+tags:
+- countDocuments
+- pymongo
+- count
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'What can we expect to be returned by running db.inspections.countDocuments({})? (Select one.)
+
+  '
+context: 'You are working with the inspections collection inside the sample_training database.
+
+  '
+artifacts:
+  sample_docs:
+  - _id: 1
+    result: Pass
+  - _id: 2
+    result: Fail
+  snippets: []
+  notes:
+  - An empty filter {} matches all documents.
+  - countDocuments() returns a number.
+choices:
+- key: A
+  text: 'This command does not return anything because it requires a query parameter.
+
+    '
+- key: B
+  text: 'This command returns the total number of documents in the inspections database.
+
+    '
+- key: C
+  text: 'This command returns the total number of documents in the inspections collection.
+
+    '
+- key: D
+  text: 'This command returns a cursor containing all inspection documents.
+
+    '
+answer:
+  keys:
+  - C
+rationale:
+  rule: 'countDocuments({}) counts all documents in the collection and returns a number.
+
+    '
+  correct_why:
+  - The empty filter {} matches all documents.
+  - countDocuments() always returns a numeric count.
+  - The method is executed on the inspections collection.
+  wrong_why:
+    A: An empty document {} is a valid query parameter.
+    B: The method counts documents in a collection, not an entire database.
+    D: countDocuments() returns a number, not a cursor.
+  trap: 'A common exam trap is confusing database-level scope with collection-level scope.
+
+    '
+  mini_demo: '# PyMongo example
+
+    from pymongo import MongoClient
+
+    client = MongoClient()
+
+    db = client.sample_training
+
+
+    total = db.inspections.count_documents({})
+
+    print(total)
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-15'

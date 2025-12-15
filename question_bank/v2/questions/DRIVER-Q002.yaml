@@ -1,0 +1,60 @@
+schema_version: '2.0'
+id: DRIVER-Q002
+title: Handling connection timeout in PyMongo
+topic: Drivers
+subtopic: PyMongo connection handling
+difficulty: easy
+type: single
+tags:
+- pymongo
+- connection-timeout
+- error-handling
+- exam-core
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'How should you handle a connection timeout in PyMongo?
+
+  '
+context: 'Your Python application is communicating with MongoDB using PyMongo and encounters a connection timeout
+  due to network instability or temporary server unavailability.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - Connection timeouts are typically transient failures.
+  - Robust applications handle such failures gracefully.
+choices:
+- key: A
+  text: Retry the operation
+- key: B
+  text: Ignore the error
+- key: C
+  text: Use a larger batch size
+- key: D
+  text: Disable connection pooling
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'Transient connection issues should be handled by retrying the operation.
+
+    '
+  correct_why:
+  - Connection timeouts are often temporary network issues.
+  - Retrying allows the operation to succeed once connectivity is restored.
+  - PyMongo is designed to work with retryable reads and writes.
+  wrong_why:
+    B: Ignoring the error can lead to data loss or inconsistent application behavior.
+    C: Batch size has no effect on connection timeouts.
+    D: Disabling connection pooling reduces performance and does not solve timeouts.
+  trap: 'Assuming connection timeouts are harmless and can be ignored.
+
+    '
+  mini_demo: "from pymongo import MongoClient, errors\n\ntry:\n    db.collection.find_one()\nexcept errors.ConnectionFailure:\n\
+    \    # retry logic here\n    print(\"Retrying operation...\")\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

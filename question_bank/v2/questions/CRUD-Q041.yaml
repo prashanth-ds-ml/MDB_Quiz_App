@@ -1,0 +1,81 @@
+schema_version: '2.0'
+id: CRUD-Q041
+title: Insert multiple documents using insert_many
+topic: CRUD
+subtopic: insert_many
+difficulty: easy
+type: single
+tags:
+- insert_many
+- pymongo
+- bulk_insert
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'The sample_restaurants database is expanding to include restaurants in 5 new neighborhoods. You need to
+  add documents for the 5 new neighborhoods in the neighborhoods collection. Documents for each new neighborhood
+  are stored in the neighborhood_update variable. Which expression should you use to insert these documents into
+  the collection? (Select one.)
+
+  '
+context: 'neighborhood_update contains five neighborhood documents (a Python list of dicts).
+
+  '
+artifacts:
+  sample_docs:
+  - name: Downtown
+    borough: Manhattan
+  - name: Midtown
+    borough: Manhattan
+  - name: Uptown
+    borough: Manhattan
+  - name: Old Town
+    borough: Queens
+  - name: Riverside
+    borough: Brooklyn
+  snippets: []
+  notes:
+  - insert_one() → single dict
+  - insert_many() → list of dicts
+  - PyMongo has no collection.insert() method
+choices:
+- key: A
+  text: 'result = neighborhoods_collection.insert_one(neighborhood_update)
+
+    '
+- key: B
+  text: 'result = neighborhoods_collection.insert_many(neighborhood_update)
+
+    '
+- key: C
+  text: 'result = neighborhoods_collection.insert(neighborhood_update)
+
+    '
+- key: D
+  text: "result = neighborhoods_collection.insert_one([\n  neighborhood_one,\n  neighborhood_two,\n  neighborhood_three,\n\
+    \  neighborhood_four,\n  neighborhood_five\n])\n"
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'Use insert_many(list_of_documents) when inserting multiple documents at once.
+
+    '
+  correct_why:
+  - neighborhood_update is a list of documents.
+  - insert_many() accepts a list and inserts all documents.
+  wrong_why:
+    A: insert_one() expects a single document (dict), not a list of documents.
+    C: insert() is not a valid PyMongo collection method.
+    D: insert_one() cannot insert a list of documents.
+  trap: 'Many confuse “one variable” with “one document”. Here the variable holds multiple docs.
+
+    '
+  mini_demo: "from pymongo import MongoClient\nclient = MongoClient()\ndb = client.sample_restaurants\nneighborhoods_collection\
+    \ = db.neighborhoods\n\nneighborhood_update = [\n  {\"name\": \"Downtown\", \"borough\": \"Manhattan\"},\n \
+    \ {\"name\": \"Midtown\", \"borough\": \"Manhattan\"},\n  {\"name\": \"Uptown\", \"borough\": \"Manhattan\"\
+    },\n  {\"name\": \"Old Town\", \"borough\": \"Queens\"},\n  {\"name\": \"Riverside\", \"borough\": \"Brooklyn\"\
+    },\n]\n\nres = neighborhoods_collection.insert_many(neighborhood_update)\nprint(len(res.inserted_ids))\n"
+status: published
+author: prashanth
+updated_at: '2025-12-15'

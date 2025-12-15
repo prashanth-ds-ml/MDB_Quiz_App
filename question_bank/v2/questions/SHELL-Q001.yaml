@@ -1,0 +1,59 @@
+schema_version: '2.0'
+id: SHELL-Q001
+title: Error handling in mongosh
+topic: Tools & Tooling
+subtopic: mongosh error handling
+difficulty: easy
+type: single
+tags:
+- mongosh
+- error-handling
+- javascript
+- exam-core
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'In mongosh, which feature is used to catch errors?
+
+  '
+context: 'The MongoDB Shell (mongosh) is based on JavaScript and follows JavaScript error-handling semantics.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - mongosh uses JavaScript syntax.
+  - Error handling follows standard JavaScript patterns.
+choices:
+- key: A
+  text: try…except
+- key: B
+  text: try…catch
+- key: C
+  text: onError
+- key: D
+  text: errorHandler
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'mongosh follows JavaScript syntax, which uses try…catch for error handling.
+
+    '
+  correct_why:
+  - mongosh is built on JavaScript, not Python.
+  - JavaScript uses try…catch blocks to handle exceptions.
+  - This is the correct and supported way to catch errors in mongosh.
+  wrong_why:
+    A: try…except is Python syntax, not JavaScript.
+    C: onError is not a valid mongosh or JavaScript construct.
+    D: errorHandler is not a built-in error-handling feature in mongosh.
+  trap: 'Confusing Python (`try…except`) with JavaScript (`try…catch`) syntax.
+
+    '
+  mini_demo: "try {\n  db.users.insertOne({ _id: 1 })\n  db.users.insertOne({ _id: 1 })\n} catch (e) {\n  print(\"\
+    Error occurred:\", e.message)\n}\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

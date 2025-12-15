@@ -1,0 +1,60 @@
+schema_version: '2.0'
+id: CRUD-Q017
+title: updateMany() without update operators
+topic: CRUD
+subtopic: updateMany() replacement behavior
+difficulty: easy
+type: single
+tags:
+- updateMany
+- replacement
+- update-operators
+- exam-trap
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'What happens if you run `updateMany()` without using an update operator (such as `$set`)?
+
+  '
+context: 'You are updating documents in a collection and accidentally provide a plain document instead of using
+  update operators.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - MongoDB distinguishes between update operators and replacement documents.
+  - This behavior is identical for updateOne() and updateMany().
+choices:
+- key: A
+  text: Partial update is performed
+- key: B
+  text: Matched documents are replaced with the provided document
+- key: C
+  text: Error is thrown
+- key: D
+  text: Only the first matched document is updated
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'An update without operators is treated as a full document replacement.
+
+    '
+  correct_why:
+  - When no update operators are used, MongoDB treats the update document as a replacement.
+  - All matched documents are replaced except for the `_id` field.
+  - This applies to both updateOne() and updateMany().
+  wrong_why:
+    A: Partial updates require operators like `$set`.
+    C: MongoDB allows replacement-style updates; it does not throw an error.
+    D: updateMany() affects all matching documents, not just one.
+  trap: 'Forgetting update operators and accidentally replacing entire documents.
+
+    '
+  mini_demo: "// Replaces all matched documents (except _id)\ndb.users.updateMany(\n  { status: \"active\" },\n\
+    \  { status: \"inactive\" }\n)\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

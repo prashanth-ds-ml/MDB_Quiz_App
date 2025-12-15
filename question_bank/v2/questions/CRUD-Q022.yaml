@@ -1,0 +1,58 @@
+schema_version: '2.0'
+id: CRUD-Q022
+title: Partial updates using update operators
+topic: CRUD
+subtopic: updateOne() with $set
+difficulty: easy
+type: single
+tags:
+- updateOne
+- $set
+- partial-update
+- exam-core
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Which MongoDB command updates only specified fields without affecting other existing fields in a document?
+
+  '
+context: 'You want to modify one or more fields in a document while keeping all remaining fields unchanged.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - Update operators modify fields in-place.
+  - Replacement updates overwrite the entire document.
+choices:
+- key: A
+  text: updateOne with full document replacement
+- key: B
+  text: updateOne using $set
+- key: C
+  text: insertOne
+- key: D
+  text: replaceOne with partial document
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'Use update operators like $set for safe partial updates.
+
+    '
+  correct_why:
+  - $set updates only the specified fields.
+  - All other fields remain untouched.
+  - This is the recommended approach for modifying part of a document.
+  wrong_why:
+    A: Full document replacement removes fields that are not included.
+    C: insertOne() inserts new documents; it does not update existing ones.
+    D: replaceOne() always replaces the entire document.
+  trap: 'Thinking that providing a partial document automatically performs a partial update.
+
+    '
+  mini_demo: "db.users.updateOne(\n  { _id: 1 },\n  { $set: { email: \"updated@mail.com\" } }\n)\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

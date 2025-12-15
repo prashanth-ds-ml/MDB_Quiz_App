@@ -1,0 +1,61 @@
+schema_version: '2.0'
+id: DOCMODEL-Q004
+title: Impact of missing required fields
+topic: MongoDB Overview
+subtopic: Schema design & data quality
+difficulty: easy
+type: single
+tags:
+- schema-design
+- data-quality
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Why should you avoid inserting documents with missing required fields?
+
+  '
+context: 'You are designing an application that relies on consistent data for querying, reporting, and analytics.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - MongoDB allows missing fields unless schema validation is enforced.
+  - Application logic often assumes certain fields exist.
+choices:
+- key: A
+  text: MongoDB rejects the insert
+- key: B
+  text: Your queries or reports might fail or give inaccurate results
+- key: C
+  text: The document becomes automatically deleted
+- key: D
+  text: Indexes stop working on the collection
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'Missing fields can break assumptions made by queries and applications.
+
+    '
+  correct_why:
+  - Queries may return incomplete or misleading results.
+  - Aggregations and reports may fail or produce incorrect metrics.
+  - Application code often expects certain fields to exist.
+  wrong_why:
+    A: MongoDB accepts documents with missing fields unless validation is enabled.
+    C: MongoDB never auto-deletes documents due to missing fields.
+    D: Indexes continue to work, but results may be incomplete.
+  trap: 'Assuming MongoDB automatically enforces required fields by default.
+
+    '
+  mini_demo: '// Query expecting ''price'' may miss documents without it
+
+    db.products.find({ price: { $gt: 1000 } })
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-13'

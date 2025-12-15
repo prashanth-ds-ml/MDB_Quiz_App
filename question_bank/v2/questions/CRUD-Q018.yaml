@@ -1,0 +1,59 @@
+schema_version: '2.0'
+id: CRUD-Q018
+title: Effect of updateMany() with $inc
+topic: CRUD
+subtopic: updateMany() with update operators
+difficulty: easy
+type: single
+tags:
+- updateMany
+- $inc
+- update-operators
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: "Given the following command, what is its effect?\ndb.products.updateMany(\n  { category: \"Electronics\"\
+  \ },\n  { $inc: { stock: 10 } }\n)\n"
+context: 'The `products` collection contains multiple documents, each with a `category` field and a numeric `stock`
+  field.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - $inc increments (adds to) an existing numeric field.
+  - updateMany() applies the update to all documents matching the filter.
+choices:
+- key: A
+  text: All Electronics products have their stock increased by 10
+- key: B
+  text: Only one Electronics product is updated
+- key: C
+  text: All products have stock reset to 10
+- key: D
+  text: An error occurs because $inc cannot be used with updateMany()
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'updateMany() + $inc increments a numeric field for all matching documents.
+
+    '
+  correct_why:
+  - The filter matches all documents where category is 'Electronics'.
+  - $inc adds 10 to the existing value of the stock field.
+  - updateMany() applies this update to every matched document.
+  wrong_why:
+    B: updateOne() updates a single document, not updateMany().
+    C: $inc increments the value; it does not reset it.
+    D: $inc is a valid update operator and works with updateMany().
+  trap: 'Confusing $inc with replacement updates or assuming updateMany() affects only one document.
+
+    '
+  mini_demo: "// Before: stock = 5\n// After:  stock = 15\ndb.products.updateMany(\n  { category: \"Electronics\"\
+    \ },\n  { $inc: { stock: 10 } }\n)\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

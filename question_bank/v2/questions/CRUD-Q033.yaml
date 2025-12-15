@@ -1,0 +1,64 @@
+schema_version: '2.0'
+id: CRUD-Q033
+title: Sort and limit results using method chaining
+topic: CRUD
+subtopic: find() with sort() and limit()
+difficulty: easy
+type: single
+tags:
+- find
+- sort
+- limit
+- method-chaining
+- exam
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'You are considering creating a new membership tier for your bike sharing service for users who take long
+  trips. Using the trips collection within the sample_training database, you need to find the trips taken by subscribers
+  with the longest trip duration. Return the top 5 results in descending order. Which query should you use? (Select
+  one.)
+
+  '
+context: 'The documents are stored in the `trips` collection.
+
+  '
+artifacts:
+  sample_docs:
+  - _id: ObjectId('5f6a...')
+    usertype: Subscriber
+    tripduration: 3200
+  notes:
+  - Descending order uses -1.
+  - sort() and limit() must be chained after find().
+choices:
+- key: A
+  text: "db.trips.find(\n  { usertype: \"Subscriber\" },\n  { sort: { tripduration: -1 } },\n  { limit: 5 }\n)\n"
+- key: B
+  text: "db.trips.find(\n  { usertype: \"Subscriber\" },\n  { sort: { tripduration: 1 } },\n  { limit: 5 }\n)\n"
+- key: C
+  text: "db.trips\n  .find({ usertype: \"Subscriber\" })\n  .sort({ tripduration: 1 })\n  .limit(5)\n"
+- key: D
+  text: "db.trips\n  .find({ usertype: \"Subscriber\" })\n  .sort({ tripduration: -1 })\n  .limit(5)\n"
+answer:
+  keys:
+  - D
+rationale:
+  rule: 'Use method chaining with sort() and limit() to order and restrict results.
+
+    '
+  correct_why:
+  - Filters only Subscriber trips.
+  - Sorts by tripduration in descending order.
+  - limit(5) returns only the top five longest trips.
+  wrong_why:
+    A: find() does not accept sort and limit as separate arguments.
+    B: Sorts results in ascending order instead of descending.
+    C: Ascending sort returns the shortest trips.
+  trap: 'Attempting to pass sort or limit as arguments to find() instead of chaining.
+
+    '
+  mini_demo: "db.trips\n  .find({ usertype: \"Subscriber\" })\n  .sort({ tripduration: -1 })\n  .limit(5)\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

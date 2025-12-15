@@ -1,0 +1,63 @@
+schema_version: '2.0'
+id: BSON-Q002
+title: Internal representation of unique document identifiers
+topic: MongoDB Overview
+subtopic: ObjectId
+difficulty: easy
+type: single
+tags:
+- bson
+- objectid
+- _id
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'How does MongoDB represent unique document identifiers internally?
+
+  '
+context: 'By default, MongoDB automatically generates a unique value for the `_id` field when one is not explicitly
+  provided.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - MongoDB automatically generates `_id` values unless explicitly provided.
+  - The default `_id` type encodes time and uniqueness information.
+choices:
+- key: A
+  text: UUID
+- key: B
+  text: ObjectId
+- key: C
+  text: Random String
+- key: D
+  text: Auto-incremented Integer
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'MongoDB uses ObjectId as the default unique identifier for documents.
+
+    '
+  correct_why:
+  - ObjectId is a 12-byte BSON type designed for uniqueness.
+  - It includes a timestamp, machine identifier, process id, and counter.
+  - MongoDB generates ObjectId values automatically for `_id`.
+  wrong_why:
+    A: UUIDs can be used, but they are not MongoDB’s default identifier type.
+    C: MongoDB does not generate random strings for `_id` values.
+    D: MongoDB does not use auto-incrementing integers by default.
+  trap: 'Assuming MongoDB uses UUIDs by default because they are common in other databases.
+
+    '
+  mini_demo: 'db.users.insertOne({ name: "Alice" })
+
+    // _id: ObjectId("656f0c8e8f9c4a1b2d3e4f5a")
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-13'

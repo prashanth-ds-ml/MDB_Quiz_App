@@ -1,0 +1,86 @@
+schema_version: '2.0'
+id: CRUD-Q042
+title: Retrieve a single document using find_one
+topic: CRUD
+subtopic: find_one
+difficulty: easy
+type: single
+tags:
+- find_one
+- pymongo
+- single_document
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'You need to find the population for the 85281 zip code in Tempe, Arizona. You want the results of the specific
+  document returned to you directly within the terminal. Which query should you use to assign the result to the
+  result variable? (Select one.)
+
+  '
+context: '# Get reference to the sample_training database
+
+  db = client.sample_training
+
+
+  # Get reference to zips collection
+
+  zips_collection = db.zips
+
+
+  # Filter document for Tempe zip code
+
+  tempe_zip = { "zip": "85281" }
+
+  '
+artifacts:
+  sample_docs:
+  - zip: '85281'
+    city: TEMPE
+    state: AZ
+    pop: 161719
+  snippets: []
+  notes:
+  - find_one() returns a single document (dict).
+  - find() returns a cursor.
+choices:
+- key: A
+  text: 'result = sample_training.zips.find({"zip": "85281"})
+
+    '
+- key: B
+  text: 'result = zips_collection.find(tempe_zip)
+
+    '
+- key: C
+  text: 'result = zips_collection.find_one(tempe_zip)
+
+    '
+- key: D
+  text: 'result = zips.find_one({"zip": "85281"})
+
+    '
+answer:
+  keys:
+  - C
+rationale:
+  rule: 'Use find_one(filter) when you want a single matching document returned directly.
+
+    '
+  correct_why:
+  - find_one() returns a document, not a cursor.
+  - Uses the provided zips_collection reference and the tempe_zip filter.
+  wrong_why:
+    A: find() returns a cursor (not the document).
+    B: find() returns a cursor, not a single document.
+    D: zips is not defined in the provided context.
+  trap: 'Exam trick: “returned directly” means “document now”, not “cursor later”.
+
+    '
+  mini_demo: 'result = zips_collection.find_one({"zip": "85281"})
+
+    print(result["pop"])
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-15'

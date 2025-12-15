@@ -1,0 +1,59 @@
+schema_version: '2.0'
+id: CRUD-Q016
+title: Updating multiple documents
+topic: CRUD
+subtopic: updateMany()
+difficulty: easy
+type: single
+tags:
+- update
+- updateMany
+- crud
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Which command updates multiple documents matching a filter?
+
+  '
+context: 'You are modifying documents in a MongoDB collection and want all documents that match a given filter to
+  be updated in a single operation.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - MongoDB provides separate methods for updating one vs many documents.
+  - Insert and update operations are distinct in MongoDB.
+choices:
+- key: A
+  text: updateOne
+- key: B
+  text: updateMany
+- key: C
+  text: insertMany
+- key: D
+  text: replaceOne
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'updateMany() modifies all documents that match the filter.
+
+    '
+  correct_why:
+  - updateMany() applies the update to every matching document.
+  - It is designed for bulk updates using a single filter.
+  - This behavior is explicitly tested in CRUD exam questions.
+  wrong_why:
+    A: updateOne() updates only the first matching document.
+    C: insertMany() inserts documents; it does not update existing ones.
+    D: replaceOne() replaces only a single document.
+  trap: 'Confusing insertMany() with updateMany() because both operate on multiple documents.
+
+    '
+  mini_demo: "db.users.updateMany(\n  { status: \"inactive\" },\n  { $set: { archived: true } }\n)\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

@@ -1,0 +1,102 @@
+schema_version: '2.0'
+id: CRUD-Q047
+title: Delete a single document using delete_one
+topic: CRUD
+subtopic: delete_one
+difficulty: easy
+type: single
+tags:
+- delete_one
+- pymongo
+- delete
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'A bank has identified a fraudulent account with the account_id MDB905411541. Given the Python file below,
+  which expression should you use to remove this account? (Select one.)
+
+  '
+context: '# Get reference to ''bank'' database
+
+  db = client.bank
+
+
+  # Get a reference to the ''accounts'' collection
+
+  accounts_collection = db.accounts
+
+
+  # Filter by account_id
+
+  fraud_account = { "account_id": "MDB905411541" }
+
+
+  # Select an expression that deletes the target account.
+
+  '
+artifacts:
+  sample_docs:
+  - account_id: MDB905411541
+    account_holder: Fraudulent User
+    account_type: checking
+    balance: 0.0
+  notes:
+  - Use delete_one() when exactly one document must be removed.
+  - delete() and hide() are not valid PyMongo collection methods.
+choices:
+- key: A
+  text: 'result = accounts_collection.delete(fraud_account)
+
+    '
+- key: B
+  text: 'result = accounts_collection.hide(fraud_account)
+
+    '
+- key: C
+  text: 'result = accounts_collection.delete(account)
+
+    '
+- key: D
+  text: 'result = accounts_collection.delete_one(fraud_account)
+
+    '
+answer:
+  keys:
+  - D
+rationale:
+  rule: 'The delete_one() method removes exactly one document that matches the given filter document.
+
+    '
+  correct_why:
+  - delete_one() is the correct PyMongo method for deleting a single document.
+  - The filter fraud_account correctly matches the target account_id.
+  - The operation removes only the fraudulent account.
+  wrong_why:
+    A: delete() is not a valid method in PyMongo.
+    B: hide() is not a MongoDB or PyMongo operation.
+    C: The variable 'account' is not defined in the given context.
+  trap: 'A common exam trap is using non-existent methods like delete() instead of the valid delete_one() or delete_many()
+    APIs.
+
+    '
+  mini_demo: 'from pymongo import MongoClient
+
+
+    client = MongoClient("mongodb://localhost:27017")
+
+    db = client.bank
+
+    accounts = db.accounts
+
+
+    fraud_account = {"account_id": "MDB905411541"}
+
+    result = accounts.delete_one(fraud_account)
+
+
+    print("Deleted documents:", result.deleted_count)
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-15'

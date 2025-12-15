@@ -1,0 +1,72 @@
+schema_version: '2.0'
+id: CRUD-Q040
+title: Insert a single document using PyMongo
+topic: CRUD
+subtopic: PyMongo insert_one()
+difficulty: easy
+type: single
+tags:
+- pymongo
+- insert_one
+- python
+- exam
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'You need to insert a new restaurant into the restaurants collection. The new restaurant’s data is stored
+  in a Python dictionary named hyderabadi_biryani. Which of the following expressions will insert the new document
+  into the restaurants collection? (Select one.)
+
+  '
+context: 'You are using the PyMongo driver to interact with MongoDB.
+
+  '
+artifacts:
+  sample_docs:
+  - name: Hyderabadi Biryani House
+    cuisine: Indian
+    city: Hyderabad
+  notes:
+  - PyMongo uses insert_one() to insert a single document.
+  - Python dictionaries are automatically converted to BSON.
+choices:
+- key: A
+  text: 'result = restaurants.insert_one(hyderabadi_biryani)
+
+    '
+- key: B
+  text: 'result = restaurants.insert(hyderabadi_biryani)
+
+    '
+- key: C
+  text: 'result = restaurants.insert_many(hyderabadi_biryani)
+
+    '
+- key: D
+  text: 'result = restaurants.insert.hyderabadi_biryani
+
+    '
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'insert_one() is used to insert a single document represented as a Python dictionary into a MongoDB collection.
+
+    '
+  correct_why:
+  - insert_one() accepts a single Python dictionary.
+  - PyMongo automatically converts the dictionary to BSON.
+  - Returns an InsertOneResult object.
+  wrong_why:
+    B: insert() is not a valid method in PyMongo.
+    C: insert_many() is used for inserting multiple documents.
+    D: This is not valid Python or PyMongo syntax.
+  trap: 'Confusing deprecated or non-existent insert methods with insert_one().
+
+    '
+  mini_demo: "from pymongo import MongoClient\n\nclient = MongoClient()\ndb = client.test\n\nhyderabadi_biryani\
+    \ = {\n  \"name\": \"Hyderabadi Biryani House\",\n  \"cuisine\": \"Indian\"\n}\n\nresult = db.restaurants.insert_one(hyderabadi_biryani)\n\
+    print(result.inserted_id)\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

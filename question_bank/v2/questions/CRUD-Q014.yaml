@@ -1,0 +1,60 @@
+schema_version: '2.0'
+id: CRUD-Q014
+title: Behavior of insertOne()
+topic: CRUD
+subtopic: insertOne()
+difficulty: easy
+type: single
+tags:
+- insertOne
+- insert
+- crud
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'Which of the following is true about the `insertOne()` command?
+
+  '
+context: 'You are inserting data into a MongoDB collection using the MongoDB Shell or a MongoDB driver.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - '`insertOne()` is used only for inserting exactly one document.'
+  - It does not modify or update existing documents.
+choices:
+- key: A
+  text: It inserts multiple documents at once
+- key: B
+  text: It inserts a single document into a collection
+- key: C
+  text: It updates existing documents
+- key: D
+  text: It replaces an existing document
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'insertOne() always inserts exactly one new document.
+
+    '
+  correct_why:
+  - insertOne() adds a single document to a collection.
+  - If `_id` is not provided, MongoDB generates one automatically.
+  - This is the most basic insert operation in MongoDB.
+  wrong_why:
+    A: insertMany() is used for inserting multiple documents.
+    C: Updates are performed using updateOne(), updateMany(), or replaceOne().
+    D: Replacement uses replaceOne(), not insertOne().
+  trap: 'Confusing insertOne() with update or replace operations.
+
+    '
+  mini_demo: 'db.users.insertOne({ name: "Charlie", age: 28 })
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-13'

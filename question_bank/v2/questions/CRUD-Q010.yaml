@@ -1,0 +1,62 @@
+schema_version: '2.0'
+id: CRUD-Q010
+title: Implicit AND in query documents
+topic: CRUD
+subtopic: Logical operators – implicit AND
+difficulty: easy
+type: single
+tags:
+- find
+- and
+- logical-operators
+- exam-favorite
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'You want to know which mobile food trucks in your neighborhood, Astoria, are the best spots to eat. Using
+  the `inspections` collection, you are making a map of all mobile food trucks nearby that have passed inspection.
+  What should you include in your query document to ensure that you find all the mobile food vendors in Astoria
+  that passed inspection?
+
+  '
+context: 'Each document includes fields for `sector`, `address.city`, and `result`.
+
+  '
+artifacts:
+  sample_docs: []
+  snippets: []
+  notes:
+  - MongoDB applies an implicit AND when multiple fields are specified in a query document.
+  - You only need $and when combining multiple conditions on the same field or using complex expressions.
+choices:
+- key: A
+  text: '{ "sector": "Mobile Food Vendor - 881" }, { "address.city": "ASTORIA" }, { "result": "Pass" }'
+- key: B
+  text: '$and: { "Mobile Food Vendor - 881", "ASTORIA", "Pass" }'
+- key: C
+  text: '{ "sector": "Mobile Food Vendor - 881", "address.city": "ASTORIA", "result": "Pass" }'
+- key: D
+  text: '&and: { "Mobile Food Vendor - 881", "ASTORIA", "Pass" }'
+answer:
+  keys:
+  - C
+rationale:
+  rule: 'Multiple field conditions in a query document are combined using an implicit AND.
+
+    '
+  correct_why:
+  - Specifying multiple fields in a single query document applies AND logic automatically.
+  - This query correctly filters by sector, city, and inspection result.
+  - This is the simplest and most idiomatic MongoDB query for this use case.
+  wrong_why:
+    A: Multiple query documents separated by commas is not valid MongoDB syntax.
+    B: $and requires an array of expressions, not raw values.
+    D: '&and is not a valid MongoDB operator.'
+  trap: 'Assuming $and is required for every multi-condition query, when MongoDB already applies AND logic implicitly.
+
+    '
+  mini_demo: "db.inspections.find({\n  sector: \"Mobile Food Vendor - 881\",\n  \"address.city\": \"ASTORIA\",\n\
+    \  result: \"Pass\"\n})\n"
+status: published
+author: prashanth
+updated_at: '2025-12-13'

@@ -1,0 +1,73 @@
+schema_version: '2.0'
+id: CRUD-Q038
+title: 'PyMongo: MongoDB documents map to which Python type?'
+topic: CRUD
+subtopic: PyMongo basics
+difficulty: easy
+type: single
+tags:
+- pymongo
+- python
+- bson
+- documents
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'What Python data type is used to represent MongoDB documents? (Select one.)
+
+  '
+context: 'You are using PyMongo and need to know the in-memory representation of a MongoDB document.
+
+  '
+artifacts:
+  sample_docs:
+  - name: Alice
+    age: 30
+    skills:
+    - Python
+    - MongoDB
+  snippets: []
+  notes:
+  - MongoDB document ↔ Python dict
+  - MongoDB array ↔ Python list
+choices:
+- key: A
+  text: Document
+- key: B
+  text: Dictionary
+- key: C
+  text: List
+- key: D
+  text: Tuple
+answer:
+  keys:
+  - B
+rationale:
+  rule: 'In PyMongo, BSON documents are represented as Python dictionaries (key–value pairs).
+
+    '
+  correct_why:
+  - A MongoDB document is a set of key–value pairs → dict is the natural match.
+  - PyMongo accepts dict objects directly for inserts/updates.
+  wrong_why:
+    A: “Document” is a concept, not a built-in Python type.
+    C: List maps to BSON arrays, not documents.
+    D: Tuple is not used for BSON documents.
+  trap: 'Seeing the word “document” and assuming it’s a Python type.
+
+    '
+  mini_demo: 'from pymongo import MongoClient
+
+    client = MongoClient()
+
+    col = client.test.users
+
+
+    doc = {"name": "Alice", "age": 30}
+
+    col.insert_one(doc)
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-15'

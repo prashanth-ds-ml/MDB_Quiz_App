@@ -1,0 +1,69 @@
+schema_version: '2.0'
+id: CRUD-Q035
+title: Exclude _id field in projection
+topic: CRUD
+subtopic: find() projection
+difficulty: easy
+type: single
+tags:
+- projection
+- _id
+- find
+- exam
+exam_relevance:
+  pool: exam
+  confidence: high
+prompt: 'If we don’t want to return the `_id` field, we can add it to the projection document and set it to which
+  of the following values? (Select all that apply.)
+
+  '
+context: 'MongoDB includes the `_id` field by default in query results unless it is explicitly excluded.
+
+  '
+artifacts:
+  sample_docs:
+  - _id: 1
+    name: Alice
+    age: 30
+  notes:
+  - '`_id` is included by default.'
+  - Projection values must be numeric.
+choices:
+- key: A
+  text: '0'
+- key: B
+  text: '1'
+- key: C
+  text: '-1'
+- key: D
+  text: None of the above
+answer:
+  keys:
+  - A
+rationale:
+  rule: 'The `_id` field can be excluded from query results only by setting its value to 0 in the projection document.
+
+    '
+  correct_why:
+  - Setting `_id` to 0 explicitly excludes it from the result.
+  - '`_id` is the only field that can be excluded alongside inclusion projections.'
+  wrong_why:
+    B: A value of 1 includes the field instead of excluding it.
+    C: -1 is not a valid projection value.
+    D: A valid value (0) exists to exclude the `_id` field.
+  trap: 'Assuming that values other than 0 can be used to exclude `_id`.
+
+    '
+  mini_demo: '// Exclude _id
+
+    db.users.find({}, { _id: 0 })
+
+
+    // Include _id (default behavior)
+
+    db.users.find({}, { name: 1 })
+
+    '
+status: published
+author: prashanth
+updated_at: '2025-12-13'
